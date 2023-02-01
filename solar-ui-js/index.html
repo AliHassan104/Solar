@@ -1,0 +1,732 @@
+<!-- <!DOCTYPE html> -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Drawing tools</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="assets\style.css">
+
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+
+
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=drawing,geometry,places&key=AIzaSyAt_Vn--VjkE5O6GbI4jtXqXCwUdOkqvVw
+    &callback=initMap"></script>
+
+
+  <style>
+    html,
+    body,
+    #map-canvas {
+      height: 90%;
+      margin: 8px;
+      padding: 8px
+    }
+
+    .pagination_parent {
+      width: 100%;
+      height: 10%;
+      padding: 40px 0;
+
+    }
+
+    .pagination_bar {
+      margin: auto;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .dot {
+      height: 31px;
+      width: 35px;
+      background-color: #eaeaea;
+      border-radius: 50%;
+      display: inline-block;
+      text-align: center;
+      margin: 0 40px;
+      cursor: pointer;
+    }
+
+    .bg_color {
+      background-color: #b9b6b6;
+    }
+
+    .dot a {
+      color: #3f4b5b !important;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 4px;
+    }
+
+    .bar {
+      border: 1px solid #E5E5E5;
+      position: absolute;
+      top: 13px;
+      z-index: -1;
+      width: 89%;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+  <script>
+
+    let allAreas = []
+    var map; // Global declaration of the map
+    var iw = new google.maps.InfoWindow(); // Global declaration of the infowindow
+    var lat_longs = new Array();
+    var markers = new Array();
+    var drawingManager;
+    var lat = 40.9403762
+    var lng = -74.1318096
+
+    function getUserLocation() {
+      // console.log(navigator.geolocation.watchPosition(p=>{
+      // console.log(p);
+      // this.handleAddressChange(p)
+      // }));
+      this.flag = true
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+
+          // console.log(position);
+
+
+          this.lat = position.coords.latitude;
+          this.lng = position.coords.longitude;
+
+          // console.log(this.lat + " " + this.lng);
+
+          initialize()
+
+        });
+      } else {
+        console.log("User didn't allow")
+      }
+    }
+
+    function initialize() {
+      console.log(lat +" "+ lng);
+      var myLatlng = new google.maps.LatLng(lat, lng);
+      var myOptions = {
+        zoom: 13,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+      map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+      drawingManager = new google.maps.drawing.DrawingManager({
+        drawingMode: google.maps.drawing.OverlayType.POLYGON,
+        drawingControl: true,
+        drawingControlOptions: {
+          position: google.maps.ControlPosition.TOP_CENTER,
+          drawingModes: [google.maps.drawing.OverlayType.POLYGON]
+        },
+        polygonOptions: {
+          editable: true
+        }
+      });
+      drawingManager.setMap(map);
+
+      google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
+        var newShape = event.overlay;
+        newShape.type = event.type;
+      });
+
+      google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
+        overlayClickListener(event.overlay);
+        $('#vertices').val(event.overlay.getPath().getArray());
+        getLongLat()
+      });
+
+      // var input = document.getElementById('searchTextField');
+      // new google.maps.places.Autocomplete(input);
+
+    }
+
+    function cities() {
+      var input = document.getElementById('autocomplete');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+      google.maps.event.addListener(autocomplete, 'place_changed', function () {
+        var place = autocomplete.getPlace();
+
+        lat = place.geometry.location.lat(),
+        lng = place.geometry.location.lng();
+
+        // Then do whatever you want with them
+
+        
+        // this.lat = place.geometry.location.lat();
+        // this.lng = place.geometry.location.lng();
+        console.log(lat);
+        console.log(lng);
+
+        initialize()
+
+
+      })
+    }
+
+    function overlayClickListener(overlay) {
+      google.maps.event.addListener(overlay, "mouseup", function (event) {
+        $('#vertices').val(overlay.getPath().getArray());
+
+      });
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    // $(function () {
+    //   $('#save').click(function () {
+    //     //iterate polygon vertices?
+    //     // getLongLat()
+    //     sumOfArea()
+    //   });
+    // });
+
+
+    // area
+    function sumOfArea() {
+      const sum = allAreas.reduce(add, 0);
+      function add(accumulator, a) {
+        return accumulator + a;
+      }
+      console.log(sum);
+      // int(sum)
+      document.getElementById("markedroof").innerHTML = parseInt(sum)
+    }
+
+    function GetArea(polygon) {
+      const length = polygon.length;
+
+      let sum = 0;
+
+      for (let i = 0; i < length; i += 2) {
+        sum +=
+          polygon[i] * polygon[(i + 3) % length] -
+          polygon[i + 1] * polygon[(i + 2) % length];
+      }
+
+      // console.log(Math.abs(sum) * 0.5);
+      return (Math.abs(sum) * 0.5)
+    }
+
+    function latlontocart(latlon) {
+      // debugger
+      let latAnchor = latlon[0][0];
+      let lonAnchor = latlon[0][1];
+      let x = 0;
+      let y = 0;
+      let R = 6378137; //radius of earth
+
+      let pos = [];
+
+      for (let i = 0; i < latlon.length; i++) {
+        let xPos =
+          (latlon[i][1] - lonAnchor) * ConvertToRadian(R) * Math.cos(latAnchor);
+        let yPos = (latlon[i][0] - latAnchor) * ConvertToRadian(R);
+
+        pos.push(xPos, yPos);
+      }
+      return pos;
+    }
+
+    function ConvertToRadian(input) {
+      return (input * Math.PI) / 180;
+    }
+
+    let latlon = []
+    function getLongLat() {
+      latlon = []
+      const getlon_lan = document.getElementById('vertices').value;
+      x = getlon_lan.replace(/[{()}]/g, '');
+      var array = JSON.parse("[" + x + "]");
+      while (array.length > 0) {
+        chunk = array.splice(0, 2)
+        latlon.push(chunk)
+      }
+      allAreas.push(GetArea(latlontocart(latlon)));
+      sumOfArea()
+    }
+
+    // google.maps.event.addDomListener(window, 'load', initialize);
+
+    // var input = document.getElementById('autocomplete');
+    // var autocomplete = new google.maps.places.Autocomplete(input);
+
+
+
+
+  </script>
+
+</head>
+
+<body>
+
+  <div id="map-canvas"></div>
+  <!-- <form method="post" accept-charset="utf-8" id="map_form"> -->
+  <input hidden="true" type="text" name="vertices" value="" id="vertices" />
+  <!-- <input class="btn btn-primary" type="button" name="save" onchange="getLongLat()" value="Save!" id="save" /> -->
+  <!-- <img onClick="getUserLocation()" src="location.png" alt="myLocation" width="28" height="28"> -->
+  <!-- </form> -->
+
+  <div class="pagination_parent">
+    <div class="pagination_bar">
+      <div class="bar"></div>
+      <div class="pages">
+        <span class="dot" id="first_page_for_color" onclick="goToFirstPage()"><a href="#first_page">1</a></span>
+        <span class="dot" id="second_page_for_color" onclick="GoToSecondPage()"><a href="#second_page">2</a></span>
+        <!-- <span class="dot" onclick="goToThirdPage()"><a href="#3">3</a></span> -->
+        <span class="dot" id="third_page_for_color" onclick="goToThirdPage()"><a href="#third_page">3</a></span>
+        <span class="dot" id="forth_page_for_color" onclick="goToFifthPage()"><a href="#fourth_page">4</a></span>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container pages">
+
+    <!-- firstPage -->
+
+    <div id="first_page">
+
+
+      <p>Fill out our quote form in less than 3 minutes and receive a customized quote within a few days.</p>
+
+      <p style="font-weight: bold;">Which concept are you interested in? *</p>
+      <!-- Default checkbox -->
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" onclick="interestedConcept()"
+          value="Lease your rooftop for a solar system" id="lease_rooftop" name="purchase_type" />
+        <label class="form-check-label" for="flexCheckDefault">
+          Lease your rooftop for a solar system
+        </label>
+      </div>
+
+      <div class="form-check">
+        <input mdbCheckbox class="form-check-input" type="checkbox" onclick="interestedConcept()"
+          value="Rent a rooftop solar system" id="rent_rooftop" name="purchase_type" />
+        <label class="form-check-label" for="flexCheckDefault">
+          Rent a rooftop solar system
+        </label>
+      </div>
+
+      <!-- Checked checkbox -->
+      <div class="form-check">
+        <input mdbCheckbox class="form-check-input" type="checkbox" onclick="interestedConcept()"
+          value="Buy a rooftop solar system" id="buy_rooftop" name="purchase_type" />
+        <label class="form-check-label" for="flexCheckChecked">
+          Buy a rooftop solar system
+        </label>
+      </div>
+
+      <p style="font-weight: lighter;">Multiple choices possible - you can receive several offers from us.</p>
+
+      <!-- <p style="font-weight: bold;">Your address *<img onClick="getUserLocation()" src="assets/location.png"
+          alt="Trulli" width="28" height="28"></p> -->
+
+      <!-- <form method="post" accept-charset="utf-8" id="map_form">
+
+
+
+        <input type="text" name="vertices" value="" id="vertices" />
+        <input type="button" name="save" onchange="getLongLat()" value="Save!" id="save" />
+        <img onClick="getUserLocation()" src="location.png" alt="myLocation" width="28" height="28">
+      </form> -->
+
+      <div *ngIf="flag">
+        <!-- longitude {{lng}} and latitude {{lat}} -->
+      </div>
+
+      <!-- [options]='options' -->
+
+      <!-- <input id="searchTextField" type="text" size="50"> -->
+
+      <input onchange="cities()" id="autocomplete" name="autocomplete_search" type="text" class="form-control"
+        placeholder="Search" />
+
+      <!-- <input ngx-google-places-autocomplete #placesRef="ngx-places" id="searchTextField" value="" formControlName="adress"
+        (onAddressChange)="handleAddressChange($event)" /> -->
+
+      <!-- <input type="button" name="save" onchange="getLongLat()" value="Save!" id="save" />
+      <img onClick="getUserLocation()" src="location.png" alt="myLocation" width="28" height="28"> -->
+
+      <br>
+      <!-- <div class="container">
+          <input ngx-google-places-autocomplete (onAddressChange)="handleAddressChange($event)" />
+          <p>Address: {{ userAddress }}</p>
+          <p>Latitude: {{ userLatitude }}</p>
+          <p>Longitude: {{ userLongitude }}</p>
+        </div> -->
+
+      <br>
+
+      <button type="submit" class="btn btn-primary" onclick="GoToSecondPage()">Next Step</button>
+
+    </div>
+
+    <!-- secondpage -->
+    <div id="second_page" style="display: none;">
+
+
+      <h1>Mark roof surface</h1>
+
+      <p style="font-weight: bold;">Mark your roof area by clicking on the map. The system will automatically
+        calculate
+        your roof area.</p>
+
+      <div class="text-center">
+        <img src="assets/animation.gif" class="rounded" alt="...">
+      </div>
+
+      <p class="text-center">Marked roof area : <span id="markedroof"> 0 </span> m<sup>2</sup>
+        <img onClick="getUserLocation()" src="assets/location.png" alt="myLocation" width="28" height="28">
+      </p>
+
+      <p class="text-center">OR</p>
+
+      <div class="form-group row">
+        <label style="font-weight: bold;" for="inputPassword" class="col-sm-2 col-form-label">Manual Input :
+        </label>
+        <div class="col-sm-10">
+          <input type="number" class="form-control" formControlName="surface_manual_input" id="manualinput"
+            placeholder="i.e : 1500">
+          <small id="emailHelp" class="form-text text-muted">The minimum size is 1500m² to purchase or rent a
+            turnkey
+            solar system from ENVIRIA.</small>
+        </div>
+
+      </div>
+
+      <button type="submit" onclick="goToThirdPage()" class="btn btn-primary">Next Step</button>
+
+      <br>
+
+    </div>
+
+    <!-- <div id="third_page" style="display: none;">
+
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" formControlName="email_adress" id="inputEmail"
+                aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" formControlName="password" id="inputPassword"
+                placeholder="Password">
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" formControlName="check_me_out" value="checked" class="form-check-input" id="check">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" onclick="goToFourthPage()" class="btn btn-primary">Next Step</button>
+
+    </div> -->
+
+    <!-- third -->
+
+    <div id="third_page" style="display: none;">
+
+
+      <p style="font-weight: bold;">Roof type *</p>
+
+      <br>
+
+      <div class="row">
+        <div class="col-md-4 formpng text-center" id="Flachdach" onclick="getRoofType('Flachdach')"><img
+            src="assets/Flachdach.png" formControlName="roof_type" class="rounded" alt="...">
+          <p>Flachdach</p>
+        </div>
+        <div class="col-md-4 formpng text-center" id="Grabendach" onclick="getRoofType('Grabendach')"><img
+            src="assets/Grabendach.png" formControlName="roof_type" class="rounded" alt="...">
+          <p>Grabendach</p>
+        </div>
+        <div class="col-md-4 formpng text-center" id="Paralleldach" onclick="getRoofType('Paralleldach')"><img
+            src="assets/Paralleldach.png" formControlName="roof_type" class="rounded" alt="...">
+          <p>Paralleldach</p>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col-md-4 formpng text-center" id="Pultdach" onclick="getRoofType('Pultdach')"><img
+            src="assets/Pultdach.png" class="rounded" alt="...">
+          <p>Pultdach</p>
+        </div>
+        <div class="col-md-4 formpng text-center" id="Pulterweitert" onclick="getRoofType('Pulterweitert')"><img
+            src="assets/Pulterweitert.png" class="rounded" alt="...">
+          <p>Pulterweitert</p>
+        </div>
+        <div class="col-md-4 formpng text-center" id="Satteldach" onclick="getRoofType('Satteldach')"><img
+            src="assets/Satteldach.png" class="rounded" alt="...">
+          <p>Satteldach</p>
+        </div>
+      </div>
+
+      <br>
+
+      <p style="font-weight: bold;">Roof inclination *</p>
+
+      <br>
+
+      <div class="row">
+        <div class="col-md-4 formpng text-center" id="0-grad" onclick="getRoofInclination('0-grad')"><img
+            src="assets/0-grad.png" class="rounded" alt="...">
+          <p>0-grad</p>
+        </div>
+        <div class="col-md-4 formpng text-center" id="15-grad" onclick="getRoofInclination('15-grad')"><img
+            src="assets/15-grad.png" class="rounded" alt="...">
+          <p>15-grad</p>
+        </div>
+        <div class="col-md-4 formpng text-center" id="30-grad" onclick="getRoofInclination('30-grad')"><img
+            src="assets/30-grad.png" class="rounded" alt="...">
+          <p>30-grad</p>
+        </div>
+      </div>
+
+      <br>
+
+      <p style="font-weight: bold;">Roofing *</p>
+
+      <div class="form-check">
+        <input class="form-check-input" onclick="displayRadioValue()" formControlName="Roofing" type="radio"
+          name="roofing" id="exampleRadios1" value="Tile" checked>
+        <label class="form-check-label" for="exampleRadios1">
+          Tile
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" onclick="displayRadioValue()" formControlName="Roofing" type="radio"
+          name="roofing" id="exampleRadios2" value="Corrugated sternit">
+        <label class="form-check-label" for="exampleRadios2">
+          Corrugated sternit
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" onclick="displayRadioValue()" formControlName="Roofing" type="radio"
+          name="roofing" id="exampleRadios2" value="Foil">
+        <label class="form-check-label" for="exampleRadios2">
+          Foil
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" onclick="displayRadioValue()" formControlName="Roofing" type="radio"
+          name="roofing" id="exampleRadios2" value="standing seam/calzip">
+        <label class="form-check-label" for="exampleRadios2">
+          standing seam/calzip
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" onclick="displayRadioValue()" formControlName="Roofing" type="radio"
+          name="roofing" id="exampleRadios2" value="Bitumen">
+        <label class="form-check-label" for="exampleRadios2">
+          Bitumen
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" onclick="displayRadioValue()" formControlName="Roofing" type="radio"
+          name="roofing" id="exampleRadios2" value="Trapezoidal sheet metal">
+        <label class="form-check-label" for="exampleRadios2">
+          Trapezoidal sheet metal
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" onclick="displayRadioValue()" formControlName="Roofing" type="radio"
+          name="roofing" id="exampleRadios2" value="Sandwich element">
+        <label class="form-check-label" for="exampleRadios2">
+          Sandwich element
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" onclick="displayRadioValue()" formControlName="Roofing" type="radio"
+          name="roofing" id="exampleRadios2" value="Green roof">
+        <label class="form-check-label" for="exampleRadios2">
+          Green roof
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" onclick="displayRadioValue()" formControlName="Roofing" type="radio"
+          name="roofing" id="exampleRadios2" value="option2">
+        <label class="form-check-label" for="Other">
+          Other
+        </label>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        <label for="inputPassword" style="font-weight: bold;" class="col-sm-3 col-form-label">Building height in
+          meter :
+        </label>
+        <div class="col-sm-9">
+          <input type="number" class="form-control" id="building_height" formControlName="Building_height_in_meter"
+            id="inputPassword" placeholder="">
+        </div>
+      </div>
+
+      <br>
+
+      <button type="submit" onclick="goToFifthPage()" class="btn btn-primary">Next Step</button>
+
+
+    </div>
+
+    <!-- fifthPage -->
+    <div id="forth_page" style="display: none;">
+
+      <div class="form-group row">
+        <label style="font-weight: bold;" for="inputPassword" class="col-sm-2 col-form-label">First Name :
+        </label>
+        <div class="col-sm-10">
+          <input formControlName='firstname' type="text" class="form-control" id="firstname" placeholder="First Name">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        <label for="inputPassword" style="font-weight: bold;" class="col-sm-2 col-form-label">Last Name :
+        </label>
+        <div class="col-sm-10">
+          <input formControlName='lastname' type="text" class="form-control" id="lastname" placeholder="Last Name">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label" style="font-weight: bold;">Company : </label>
+        <div class="col-sm-10">
+          <input formControlName='company' type="text" class="form-control" id="company" placeholder="Company">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label" style="font-weight: bold;">Address : </label>
+        <div class="col-sm-10">
+          <input formControlName='address' type="text" class="form-control" id="adress" placeholder="Address">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label" style="font-weight: bold;">Country : </label>
+        <div class="col-sm-10">
+          <input formControlName='country' type="text" class="form-control" id="country" placeholder="Country">
+        </div>
+      </div>
+
+      <br>
+      <div class="form-group row">
+        <label for="inputPassword" style="font-weight: bold;" class="col-sm-2 col-form-label">Email : </label>
+        <div class="col-sm-10">
+          <input formControlName='email' type="email" class="form-control" id="email" placeholder="Email">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+            else.</small>
+        </div>
+      </div>
+
+      <br>
+      <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label" style="font-weight: bold;">Phone Number :
+        </label>
+        <div class="col-sm-10">
+          <input type="number" formControlName='phonenumber' class="form-control" id="phonenumber"
+            placeholder="Phone Number">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2 col-form-label" style="font-weight: bold;">Annual power
+          consumption :
+        </label>
+        <div class="col-sm-10">
+          <input formControlName='consumption' type="number" class="form-control" id="anual_power_consumption"
+            placeholder="Annual power consumption">
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        <label for="inputPassword" class="col-sm-2" style="font-weight: bold;">I would like additional
+          information :
+        </label>
+        <div class="col-sm-10">
+          <select id="inputState" class="form-control">
+            <option selected disabled>Choose</option>
+            <option>Electromobility</option>
+            <option>Energy storage</option>
+            <option>Smart electicity meters</option>
+            <option>Green roof</option>
+            <option>Solar carport</option>
+            <option>Roof restauration</option>
+            <option>Heat solution</option>
+          </select>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        <label formControlName='notes' for="inputPassword" class="col-sm-2 col-form-label"
+          style="font-weight: bold;">Notes and details :
+        </label>
+        <div class="col-sm-10">
+          <textarea class="form-control" id="notes_and_details" placeholder="Notes and details" rows="3"></textarea>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        <label for="inputPassword" style="font-weight: bold;" class="col-sm-2 col-form-label">File : </label>
+        <div class="col-sm-10">
+          <input class="form-control" type="file" id="formFile">
+        </div>
+      </div>
+
+      <label for="inputPassword" style="font-weight: bold;" class="col-sm-2 col-form-label">Privacy policy
+        *</label>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="privacycheck">
+        <small class="form-check-label" for="exampleCheck1">Yes, I agree that ENVIRIA may use my personal data
+          for
+          thepurpose of preparing an offer until revoked. Formore information, please refer to our privacy
+          policy.</small>
+      </div>
+
+      <br>
+
+
+      <!-- <button type="submit" [disabled]="!userForm.valid" class="btn btn-primary">Submit</button> -->
+      <button type="submit" onclick="submit()" class="btn btn-primary">Save</button>
+
+    </div>
+
+  </div>
+
+  <script src="Pagination.js"></script>
+  <script src="SaveForm.js"></script>
+
+</body>
+
+</html>
