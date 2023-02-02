@@ -1,4 +1,3 @@
-<!-- <!DOCTYPE html> -->
 <!DOCTYPE html>
 <html>
 
@@ -7,17 +6,15 @@
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
 
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
   <link rel="stylesheet" href="assets\style.css">
 
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-
-
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=drawing,geometry,places&key=AIzaSyAt_Vn--VjkE5O6GbI4jtXqXCwUdOkqvVw
     &callback=initMap"></script>
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
   <style>
     html,
@@ -27,57 +24,8 @@
       margin: 8px;
       padding: 8px
     }
-
-    .pagination_parent {
-      width: 100%;
-      height: 10%;
-      padding: 40px 0;
-
-    }
-
-    .pagination_bar {
-      margin: auto;
-      width: 50%;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .dot {
-      height: 31px;
-      width: 35px;
-      background-color: #eaeaea;
-      border-radius: 50%;
-      display: inline-block;
-      text-align: center;
-      margin: 0 40px;
-      cursor: pointer;
-    }
-
-    .bg_color {
-      background-color: #b9b6b6;
-    }
-
-    .dot a {
-      color: #3f4b5b !important;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-top: 4px;
-    }
-
-    .bar {
-      border: 1px solid #E5E5E5;
-      position: absolute;
-      top: 13px;
-      z-index: -1;
-      width: 89%;
-    }
   </style>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
   <script>
 
@@ -87,28 +35,22 @@
     var lat_longs = new Array();
     var markers = new Array();
     var drawingManager;
+    let allLongLat = []
+    let latlon = []
     var lat = 40.9403762
     var lng = -74.1318096
+    var mapZoom = 13
 
     function getUserLocation() {
-      // console.log(navigator.geolocation.watchPosition(p=>{
-      // console.log(p);
-      // this.handleAddressChange(p)
-      // }));
+      mapZoom = 18
       this.flag = true
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
 
-          // console.log(position);
-
-
           this.lat = position.coords.latitude;
           this.lng = position.coords.longitude;
 
-          // console.log(this.lat + " " + this.lng);
-
           initialize()
-
         });
       } else {
         console.log("User didn't allow")
@@ -116,12 +58,11 @@
     }
 
     function initialize() {
-      console.log(lat +" "+ lng);
       var myLatlng = new google.maps.LatLng(lat, lng);
       var myOptions = {
-        zoom: 13,
+        zoom: mapZoom,
         center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.HYBRID
       }
       map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
       drawingManager = new google.maps.drawing.DrawingManager({
@@ -160,19 +101,12 @@
         var place = autocomplete.getPlace();
 
         lat = place.geometry.location.lat(),
-        lng = place.geometry.location.lng();
+          lng = place.geometry.location.lng();
 
-        // Then do whatever you want with them
-
-        
-        // this.lat = place.geometry.location.lat();
-        // this.lng = place.geometry.location.lng();
         console.log(lat);
         console.log(lng);
 
         initialize()
-
-
       })
     }
 
@@ -199,8 +133,6 @@
       function add(accumulator, a) {
         return accumulator + a;
       }
-      console.log(sum);
-      // int(sum)
       document.getElementById("markedroof").innerHTML = parseInt(sum)
     }
 
@@ -215,7 +147,6 @@
           polygon[i + 1] * polygon[(i + 2) % length];
       }
 
-      // console.log(Math.abs(sum) * 0.5);
       return (Math.abs(sum) * 0.5)
     }
 
@@ -242,8 +173,7 @@
     function ConvertToRadian(input) {
       return (input * Math.PI) / 180;
     }
-    let allLongLat = []
-    let latlon = []
+    
     function getLongLat() {
       latlon = []
       const getlon_lan = document.getElementById('vertices').value;
@@ -254,7 +184,7 @@
         chunk = array.splice(0, 2)
         latlon.push(chunk)
         allLongLat.push(chunk)
-        
+
       }
       console.log(allLongLat);
       allAreas.push(GetArea(latlontocart(latlon)));
@@ -266,10 +196,10 @@
     // var input = document.getElementById('autocomplete');
     // var autocomplete = new google.maps.places.Autocomplete(input);
 
-    function clearMarkedArea(){
+    function clearMarkedArea() {
       allAreas = []
       allLongLat = []
-
+      sumOfArea()
       initialize()
     }
 
@@ -280,13 +210,32 @@
 
 <body>
 
+
+  <!-- class="container-fluid" -->
+  <div style="margin: 5px; padding: 5px;">
+    <div class="row">
+      <div class="col-11">
+        <input onkeyup="cities()" id="autocomplete" name="autocomplete_search" type="text" class="form-control"
+          placeholder="Search" />
+      </div>
+      <!-- <div class="col-1">
+        <input onClick="getUserLocation()" style="float: right; " type="button" onclick="clearMarkedArea()" class="btn btn-primary" value="my location">
+      </div> -->
+      <div class="col-1 mx-auto">
+        <img onClick="getUserLocation()" src="assets/loc.png" alt="location" width="28" height="28">
+        <img onClick="clearMarkedArea()" src="assets/remove.png" alt="remove" width="28" height="28">
+        <!-- <input style="float: right;" type="button" onclick="clearMarkedArea()" class="btn btn-primary" value="clear map"> -->
+      </div>
+    </div>
+  </div>
+
   <div id="map-canvas"></div>
   <!-- <form method="post" accept-charset="utf-8" id="map_form"> -->
   <input hidden="true" type="text" name="vertices" value="" id="vertices" />
   <!-- <input class="btn btn-primary" type="button" name="save" onchange="getLongLat()" value="Save!" id="save" /> -->
   <!-- <img onClick="getUserLocation()" src="location.png" alt="myLocation" width="28" height="28"> -->
   <!-- </form> -->
-  <input type="button" onclick="clearMarkedArea()" class="btn btn-primary" value="clear">
+
 
   <div class="pagination_parent">
     <div class="pagination_bar">
@@ -352,16 +301,16 @@
         <img onClick="getUserLocation()" src="location.png" alt="myLocation" width="28" height="28">
       </form> -->
 
-      <div *ngIf="flag">
-        <!-- longitude {{lng}} and latitude {{lat}} -->
-      </div>
+      <!-- <div *ngIf="flag"> -->
+      <!-- longitude {{lng}} and latitude {{lat}} -->
+      <!-- </div> -->
 
       <!-- [options]='options' -->
 
       <!-- <input id="searchTextField" type="text" size="50"> -->
 
-      <input onkeyup="cities()" id="autocomplete" name="autocomplete_search" type="text" class="form-control"
-        placeholder="Search" />
+      <!-- <input onkeyup="cities()" id="autocomplete" name="autocomplete_search" type="text" class="form-control"
+        placeholder="Search" /> -->
 
       <!-- <input ngx-google-places-autocomplete #placesRef="ngx-places" id="searchTextField" value="" formControlName="adress"
         (onAddressChange)="handleAddressChange($event)" /> -->
@@ -397,8 +346,8 @@
         <img src="assets/animation.gif" class="rounded" alt="...">
       </div>
 
-      <p class="text-center">Marked roof area : <span id="markedroof"> 0 </span> m<sup>2</sup>
-        <img onClick="getUserLocation()" src="assets/location.png" alt="myLocation" width="28" height="28">
+      <p class="text-center">Marked roof area : <b> <span id="markedroof"> 0 </span> m<sup>2</sup> </b>
+        <!-- <img onClick="getUserLocation()" src="assets/location.png" alt="myLocation" width="28" height="28"> -->
       </p>
 
       <p class="text-center">OR</p>
