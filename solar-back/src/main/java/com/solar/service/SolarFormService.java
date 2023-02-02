@@ -60,9 +60,9 @@ public class SolarFormService {
                 updateSolarFormDto.setRoofType(solarFormDto.getRoofType());
                 updateSolarFormDto.setRoofInclination(solarFormDto.getRoofInclination());
                 updateSolarFormDto.setRoofing(solarFormDto.getRoofing());
-                updateSolarFormDto.setBuildingHeightInMeter(solarFormDto.getBuildingHeightInMeter());
+                updateSolarFormDto.setBuildingHeight(solarFormDto.getBuildingHeightInMeter());
 
-                updateSolarFormDto.setSurfaceManualInput(solarFormDto.getSurfaceManualInput());
+                updateSolarFormDto.setArea(solarFormDto.getSurfaceManualInput());
 
                 updateSolarFormDto.setLeaseRooftop(solarFormDto.getLeaseRooftop());
                 updateSolarFormDto.setRentRooftop(solarFormDto.getRentRooftop());
@@ -92,13 +92,14 @@ public class SolarFormService {
                 .roofType(solarFormDto.getRoofType())
                 .roofInclination(solarFormDto.getRoofInclination())
                 .roofing(solarFormDto.getRoofing())
-                .buildingHeightInMeter(solarFormDto.getBuildingHeightInMeter())
+                .buildingHeight(solarFormDto.getBuildingHeightInMeter())
 
-                .surfaceManualInput(solarFormDto.getSurfaceManualInput())
+                .area(solarFormDto.getSurfaceManualInput())
 
                 .leaseRooftop(solarFormDto.getLeaseRooftop())
                 .rentRooftop(solarFormDto.getRentRooftop())
                 .buyRooftop(solarFormDto.getBuyRooftop())
+                .locations(solarFormDto.getLocations())
 
                 .build();
     }
@@ -119,13 +120,14 @@ public class SolarFormService {
                 .roofType(solarForm.getRoofType())
                 .roofing(solarForm.getRoofing())
                 .roofInclination(solarForm.getRoofInclination())
-                .buildingHeightInMeter(solarForm.getBuildingHeightInMeter())
+                .buildingHeightInMeter(solarForm.getBuildingHeight())
 
-                .surfaceManualInput(solarForm.getSurfaceManualInput())
+                .surfaceManualInput(solarForm.getArea())
 
                 .leaseRooftop(solarForm.getLeaseRooftop())
                 .rentRooftop(solarForm.getRentRooftop())
                 .buyRooftop(solarForm.getBuyRooftop())
+                .locations(solarForm.getLocations())
 
                 .build();
     }

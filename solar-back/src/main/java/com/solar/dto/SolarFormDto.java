@@ -1,6 +1,9 @@
 package com.solar.dto;
 
+import com.solar.modal.Location;
 import lombok.*;
+
+import java.util.ArrayList;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +24,9 @@ public class SolarFormDto {
     private String phoneNumber;
     private String consumption;
     private String notes;
+//    private ArrayList<String> listOfLongLan = new ArrayList<String>();
+
+    private ArrayList<Location> locations = new ArrayList<Location>();
 
     private String roofType;
     private String roofInclination;

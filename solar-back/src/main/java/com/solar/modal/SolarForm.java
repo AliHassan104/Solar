@@ -3,6 +3,7 @@ package com.solar.modal;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
@@ -29,19 +30,22 @@ public class SolarForm {
     private String phoneNumber;
     private String consumption;
     private String notes;
+    private Boolean privacyCheck;
+
+    @OneToMany
+    private ArrayList<Location> locations = new ArrayList<Location>();
 
     private String roofType;
     private String roofInclination;
     private String roofing;
-    private String buildingHeightInMeter;
+    private String buildingHeight;
 
-    private String surfaceManualInput;
+
+    private String area;
+//    private String surfaceManualInput;
 
     private String leaseRooftop;
     private String rentRooftop;
     private String buyRooftop;
-
-
-
 
 }

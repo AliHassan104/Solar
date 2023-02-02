@@ -242,17 +242,21 @@
     function ConvertToRadian(input) {
       return (input * Math.PI) / 180;
     }
-
+    let allLongLat = []
     let latlon = []
     function getLongLat() {
       latlon = []
       const getlon_lan = document.getElementById('vertices').value;
+      console.log(getlon_lan);
       x = getlon_lan.replace(/[{()}]/g, '');
       var array = JSON.parse("[" + x + "]");
       while (array.length > 0) {
         chunk = array.splice(0, 2)
         latlon.push(chunk)
+        allLongLat.push(chunk)
+        
       }
+      console.log(allLongLat);
       allAreas.push(GetArea(latlontocart(latlon)));
       sumOfArea()
     }
@@ -262,7 +266,12 @@
     // var input = document.getElementById('autocomplete');
     // var autocomplete = new google.maps.places.Autocomplete(input);
 
+    function clearMarkedArea(){
+      allAreas = []
+      allLongLat = []
 
+      initialize()
+    }
 
 
   </script>
@@ -277,6 +286,7 @@
   <!-- <input class="btn btn-primary" type="button" name="save" onchange="getLongLat()" value="Save!" id="save" /> -->
   <!-- <img onClick="getUserLocation()" src="location.png" alt="myLocation" width="28" height="28"> -->
   <!-- </form> -->
+  <input type="button" onclick="clearMarkedArea()" class="btn btn-primary" value="clear">
 
   <div class="pagination_parent">
     <div class="pagination_bar">
@@ -350,7 +360,7 @@
 
       <!-- <input id="searchTextField" type="text" size="50"> -->
 
-      <input onchange="cities()" id="autocomplete" name="autocomplete_search" type="text" class="form-control"
+      <input onkeyup="cities()" id="autocomplete" name="autocomplete_search" type="text" class="form-control"
         placeholder="Search" />
 
       <!-- <input ngx-google-places-autocomplete #placesRef="ngx-places" id="searchTextField" value="" formControlName="adress"
