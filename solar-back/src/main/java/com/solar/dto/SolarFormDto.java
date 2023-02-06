@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,22 +21,21 @@ public class SolarFormDto {
     private String company;
     private String address;
     private String country;
+
     private String email;
     private String phoneNumber;
     private String consumption;
     private String notes;
-//    private ArrayList<String> listOfLongLan = new ArrayList<String>();
+    private Boolean privacyCheck;
 
-    private ArrayList<Location> locations = new ArrayList<Location>();
-
+//    private Location location;
     private String roofType;
     private String roofInclination;
     private String roofing;
-    private String buildingHeightInMeter;
+    private String buildingHeight;
 
-    private String surfaceManualInput;
-
-    private String leaseRooftop;
-    private String rentRooftop;
-    private String buyRooftop;
+    private String area;
+    private Boolean leaseRooftop;
+    private Boolean rentRooftop;
+    private Boolean buyRooftop;
 }

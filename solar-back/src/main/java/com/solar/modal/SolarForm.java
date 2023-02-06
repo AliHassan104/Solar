@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,26 +27,27 @@ public class SolarForm {
     private String company;
     private String address;
     private String country;
+
     private String email;
     private String phoneNumber;
     private String consumption;
     private String notes;
     private Boolean privacyCheck;
 
-    @OneToMany
-    private ArrayList<Location> locations = new ArrayList<Location>();
+    @OneToMany(mappedBy = "solar",cascade = CascadeType.REMOVE)
+    private List<Location> locations;
 
+//    @ManyToOne
+//    @JoinColumn(name = "location_id")
+//    private Location location;
     private String roofType;
     private String roofInclination;
     private String roofing;
     private String buildingHeight;
 
-
     private String area;
-//    private String surfaceManualInput;
-
-    private String leaseRooftop;
-    private String rentRooftop;
-    private String buyRooftop;
+    private Boolean leaseRooftop;
+    private Boolean rentRooftop;
+    private Boolean buyRooftop;
 
 }

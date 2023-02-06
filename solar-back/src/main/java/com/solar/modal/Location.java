@@ -1,11 +1,10 @@
 package com.solar.modal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +15,7 @@ import javax.persistence.Table;
 @Builder
 
 @Entity
-@Table(name = "solar")
+@Table(name = "location")
 public class Location {
     @Id
     @Column(name = "id", nullable = false)
@@ -24,5 +23,12 @@ public class Location {
 
     private String longitude;
     private String latitude;
+    private String element;
+
+    @ManyToOne
+    @JoinColumn(name = "solar")
+    @JsonIgnore
+    @JsonIgnoreProperties
+    private SolarForm solar;
 
 }

@@ -54,16 +54,17 @@ public class SolarFormService {
                 updateSolarFormDto.setCompany(solarFormDto.getCompany());
                 updateSolarFormDto.setAddress(solarFormDto.getAddress());
                 updateSolarFormDto.setCountry(solarFormDto.getCountry());
+
                 updateSolarFormDto.setPhoneNumber(solarFormDto.getPhoneNumber());
                 updateSolarFormDto.setConsumption(solarFormDto.getConsumption());
+                updateSolarFormDto.setArea(solarFormDto.getArea());
 
                 updateSolarFormDto.setRoofType(solarFormDto.getRoofType());
                 updateSolarFormDto.setRoofInclination(solarFormDto.getRoofInclination());
                 updateSolarFormDto.setRoofing(solarFormDto.getRoofing());
-                updateSolarFormDto.setBuildingHeight(solarFormDto.getBuildingHeightInMeter());
+                updateSolarFormDto.setBuildingHeight(solarFormDto.getBuildingHeight());
 
-                updateSolarFormDto.setArea(solarFormDto.getSurfaceManualInput());
-
+                updateSolarFormDto.setArea(solarFormDto.getArea());
                 updateSolarFormDto.setLeaseRooftop(solarFormDto.getLeaseRooftop());
                 updateSolarFormDto.setRentRooftop(solarFormDto.getRentRooftop());
                 updateSolarFormDto.setBuyRooftop(solarFormDto.getBuyRooftop());
@@ -79,27 +80,29 @@ public class SolarFormService {
     public SolarForm dto(SolarFormDto solarFormDto){
         return SolarForm.builder()
                 .id(solarFormDto.getId())
+
                 .firstName(solarFormDto.getFirstName())
                 .lastName(solarFormDto.getLastName())
                 .company(solarFormDto.getCompany())
                 .address(solarFormDto.getAddress())
-                .email(solarFormDto.getEmail())
-                .consumption(solarFormDto.getConsumption())
                 .country(solarFormDto.getCountry())
-                .notes(solarFormDto.getNotes())
-                .phoneNumber(solarFormDto.getPhoneNumber())
 
+                .email(solarFormDto.getEmail())
+                .phoneNumber(solarFormDto.getPhoneNumber())
+                .consumption(solarFormDto.getConsumption())
+                .notes(solarFormDto.getNotes())
+                .privacyCheck(solarFormDto.getPrivacyCheck())
+
+//                .location(solarFormDto.getLocation())
                 .roofType(solarFormDto.getRoofType())
                 .roofInclination(solarFormDto.getRoofInclination())
                 .roofing(solarFormDto.getRoofing())
-                .buildingHeight(solarFormDto.getBuildingHeightInMeter())
+                .buildingHeight(solarFormDto.getBuildingHeight())
 
-                .area(solarFormDto.getSurfaceManualInput())
-
+                .area(solarFormDto.getArea())
                 .leaseRooftop(solarFormDto.getLeaseRooftop())
                 .rentRooftop(solarFormDto.getRentRooftop())
                 .buyRooftop(solarFormDto.getBuyRooftop())
-                .locations(solarFormDto.getLocations())
 
                 .build();
     }
@@ -107,27 +110,29 @@ public class SolarFormService {
     public SolarFormDto toDto(SolarForm solarForm){
         return  SolarFormDto.builder()
                 .id(solarForm.getId())
+
                 .firstName(solarForm.getFirstName())
                 .lastName(solarForm.getLastName())
                 .company(solarForm.getCompany())
                 .address(solarForm.getAddress())
-                .email(solarForm.getEmail())
-                .consumption(solarForm.getConsumption())
                 .country(solarForm.getCountry())
-                .notes(solarForm.getNotes())
+
+                .email(solarForm.getEmail())
                 .phoneNumber(solarForm.getPhoneNumber())
+                .consumption(solarForm.getConsumption())
+                .notes(solarForm.getNotes())
+                .privacyCheck(solarForm.getPrivacyCheck())
 
                 .roofType(solarForm.getRoofType())
                 .roofing(solarForm.getRoofing())
                 .roofInclination(solarForm.getRoofInclination())
-                .buildingHeightInMeter(solarForm.getBuildingHeight())
-
-                .surfaceManualInput(solarForm.getArea())
+                .buildingHeight(solarForm.getBuildingHeight())
+                .area(solarForm.getArea())
 
                 .leaseRooftop(solarForm.getLeaseRooftop())
                 .rentRooftop(solarForm.getRentRooftop())
                 .buyRooftop(solarForm.getBuyRooftop())
-                .locations(solarForm.getLocations())
+//                .location(solarForm.getLocation())
 
                 .build();
     }
