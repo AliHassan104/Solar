@@ -60,10 +60,9 @@ public class SolarFormController {
     }
 
     @PostMapping("/image")
-    public String addAchievements(@RequestParam("image") MultipartFile image) {
+    public String addImage(@RequestParam("image") MultipartFile image) {
         try{
             String fileName = solarFormService.uploadImageAndGetApiPath(image);
-
             return fileName;
         }catch (Exception e){
             System.out.println(e);
