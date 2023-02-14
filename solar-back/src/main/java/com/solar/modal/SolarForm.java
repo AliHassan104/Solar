@@ -37,9 +37,6 @@ public class SolarForm {
     @OneToMany(mappedBy = "solar",cascade = CascadeType.REMOVE)
     private List<Location> locations;
 
-//    @ManyToOne
-//    @JoinColumn(name = "location_id")
-//    private Location location;
     private String roofType;
     private String roofInclination;
     private String roofing;

@@ -12,8 +12,8 @@ import lombok.*;
 
 public class EmailDetailsDto {
     private String recipient;
-    private String msgBody;
     private String subject;
-    private String attachment;
+    private Long id;
+//    private String attachment;
 }
 

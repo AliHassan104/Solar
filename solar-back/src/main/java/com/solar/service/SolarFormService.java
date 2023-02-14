@@ -1,21 +1,41 @@
 package com.solar.service;
 
+import com.solar.dto.EmailDetailsDto;
+//import com.solar.dto.LocationDto;
 import com.solar.dto.SolarFormDto;
+import com.solar.modal.Location;
 import com.solar.modal.SolarForm;
+import com.solar.repository.LocationRepository;
 import com.solar.repository.SolarFormRepository;
 import net.bytebuddy.implementation.bytecode.Throw;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class SolarFormService {
 
     private SolarFormRepository solarFormRepository;
+    private LocationService locationService;
+    private EmailService emailService;
 
-    public SolarFormService(SolarFormRepository solarFormRepository) {
+    @Value("${image.bucket.path}")
+    private String imageBucketPath;
+
+    @Value("${image.api.url}")
+    private String imageApiUrl;
+
+    public SolarFormService(SolarFormRepository solarFormRepository, LocationService locationService, EmailService emailService) {
         this.solarFormRepository = solarFormRepository;
+        this.locationService = locationService;
+        this.emailService = emailService;
     }
 
     public List<SolarForm> getAllSolarForm(){
@@ -23,9 +43,9 @@ public class SolarFormService {
     }
 
     public SolarFormDto getSolarFormById(Long id) throws Exception {
-        Optional<SolarForm> user =  solarFormRepository.findById(id);
-        if(user.isPresent()){
-            return toDto(user.get());
+        Optional<SolarForm> solarForm =  solarFormRepository.findById(id);
+        if(solarForm.isPresent()){
+            return toDto(solarForm.get());
         }else {
             throw new Exception();
         }
@@ -40,7 +60,16 @@ public class SolarFormService {
     }
 
     public SolarFormDto addSolarForm(SolarFormDto solarFormDto) {
-        return toDto(solarFormRepository.save(dto(solarFormDto)));
+
+        if (solarFormDto.getLocations()!=null){
+            locationService.addLocation(solarFormDto.getLocations());
+        }
+
+        SolarFormDto _solarFormDto = toDto(solarFormRepository.save(dto(solarFormDto)));
+
+        emailService.sendSimpleMail(new EmailDetailsDto("alihassan@gmail.com","SolarForm",_solarFormDto.getId()));
+
+        return _solarFormDto;
     }
 
 
@@ -58,6 +87,7 @@ public class SolarFormService {
                 updateSolarFormDto.setPhoneNumber(solarFormDto.getPhoneNumber());
                 updateSolarFormDto.setConsumption(solarFormDto.getConsumption());
                 updateSolarFormDto.setArea(solarFormDto.getArea());
+                updateSolarFormDto.setLocations(solarFormDto.getLocations());
 
                 updateSolarFormDto.setRoofType(solarFormDto.getRoofType());
                 updateSolarFormDto.setRoofInclination(solarFormDto.getRoofInclination());
@@ -103,6 +133,7 @@ public class SolarFormService {
                 .leaseRooftop(solarFormDto.getLeaseRooftop())
                 .rentRooftop(solarFormDto.getRentRooftop())
                 .buyRooftop(solarFormDto.getBuyRooftop())
+                .locations(solarFormDto.getLocations())
 
                 .build();
     }
@@ -132,10 +163,28 @@ public class SolarFormService {
                 .leaseRooftop(solarForm.getLeaseRooftop())
                 .rentRooftop(solarForm.getRentRooftop())
                 .buyRooftop(solarForm.getBuyRooftop())
-//                .location(solarForm.getLocation())
+                .locations(solarForm.getLocations())
 
                 .build();
     }
 
 
+    public String uploadImageAndGetApiPath(MultipartFile image){
+        String filename = generateRandomImageName(image);
+        final Path filePAth = Paths.get(imageBucketPath);
+        Path imagePath = filePAth.resolve(filename);
+        try {
+            Files.copy(image.getInputStream(),imagePath);
+            return imageApiUrl+filename;
+        } catch (Exception e) {
+            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+        }
+
+    }
+    private String generateRandomImageName(MultipartFile file){
+        String randomId = UUID.randomUUID().toString();
+        String filename = file.getOriginalFilename();
+        String generatedfilename = randomId.concat(filename.substring(filename.lastIndexOf(".")));
+        return generatedfilename;
+    }
 }

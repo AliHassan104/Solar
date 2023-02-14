@@ -1,11 +1,13 @@
 package com.solar.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solar.dto.SolarFormDto;
 import com.solar.modal.SolarForm;
 import com.solar.service.SolarFormService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -54,6 +56,18 @@ public class SolarFormController {
         }catch (Exception e){
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/image")
+    public String addAchievements(@RequestParam("image") MultipartFile image) {
+        try{
+            String fileName = solarFormService.uploadImageAndGetApiPath(image);
+
+            return fileName;
+        }catch (Exception e){
+            System.out.println(e);
+            return "image not uploaded";
         }
     }
 

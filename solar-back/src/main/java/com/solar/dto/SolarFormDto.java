@@ -4,6 +4,7 @@ import com.solar.modal.Location;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -28,7 +29,7 @@ public class SolarFormDto {
     private String notes;
     private Boolean privacyCheck;
 
-//    private Location location;
+    private List<Location> locations;
     private String roofType;
     private String roofInclination;
     private String roofing;
