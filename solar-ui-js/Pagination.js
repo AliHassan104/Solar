@@ -57,3 +57,20 @@ function goToFifthPage(){
     document.getElementById('forth_page_for_color').style.backgroundColor= "#b9b6b6";
 
 }
+
+function myFunction() {
+
+    var increase_height = document.getElementById("apply_height")
+    if(increase_height.className === "main-header__inner"){
+        increase_height.className += " increase_height"
+    }else{
+        increase_height.className = "main-header__inner"
+    }
+
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+      x.className += "responsive";
+    } else {
+      x.className = "topnav";
+    }
+  }

@@ -10,13 +10,6 @@
       {
         "duplicate-id-aria": "off"
       }
-    ],
-    "axe/language": [
-      "default",
-      {
-        "html-has-lang": "off"
-      }
-    ],
-    "no-inline-styles": "off"
+    ]
   }
 }

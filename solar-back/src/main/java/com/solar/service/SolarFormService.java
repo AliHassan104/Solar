@@ -177,7 +177,6 @@ public class SolarFormService {
                 .build();
     }
 
-
     public String uploadImageAndGetApiPath(MultipartFile image){
         String filename = generateRandomImageName(image);
         final Path filePAth = Paths.get(imageBucketPath);

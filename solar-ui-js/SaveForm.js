@@ -1,17 +1,22 @@
-var rooftype;
-var Roofinclination;
+var rooftype = "";
+var Roofinclination = "";
 var getRoofing = "Tile";
 var roof_type_alternate_border = 2;
 var getBorderedElement;
+var rooftype
 localStorage.removeItem("count")
-var getLocal =localStorage.getItem("count")
-
+var getLocal = localStorage.getItem("count")
+var rooftypearray = []
+var roofinclinationarray = []
 function getRoofType(roof_type) {
-    rooftype = roof_type
+  rooftype = roof_type
+
+  if (rooftype != null) {
+
 
     JSON.parse(getLocal)
-    getLocal+2
-    localStorage.setItem('count',JSON.stringify(getLocal))
+    getLocal + 2
+    localStorage.setItem('count', JSON.stringify(getLocal))
     document.getElementById('Flachdach').style.border = 'transparent'
     document.getElementById('Grabendach').style.border = 'transparent'
     document.getElementById('Paralleldach').style.border = 'transparent'
@@ -33,114 +38,121 @@ function getRoofType(roof_type) {
     getPulterweitert.classList.add("otherclass");
     getSatteldach.classList.add("otherclass");
 
-    let array = [];
     var count = 0;
     var applyBorder;
-    array.push(getFlachdach, getGrabendach, getParalleldach, getPultdach, getPulterweitert, getSatteldach)
+    rooftypearray.push(getFlachdach, getGrabendach, getParalleldach, getPultdach, getPulterweitert, getSatteldach)
     debugger
 
 
-    for (let arr of array) {
-        if (arr.id == roof_type) {
-            applyBorder = arr.id
-            document.getElementById(applyBorder).style.border = "1px solid blue";
-            document.getElementById(applyBorder).style.borderRadius = "4px";
-            getBorderedElement = document.getElementById(applyBorder);
-            getBorderedElement.classList.remove("otherclass");
-            count = 0
-        }
+    for (let arr of rooftypearray) {
+      if (arr.id == roof_type) {
+        applyBorder = arr.id
+        document.getElementById(applyBorder).style.border = "1px solid blue";
+        document.getElementById(applyBorder).style.borderRadius = "4px";
+        getBorderedElement = document.getElementById(applyBorder);
+        getBorderedElement.classList.remove("otherclass");
+        count = 0
+      }
     }
+  }
 
-    // for (let arr of array) {
-    //     if (arr.id == roof_type) {
-    //         applyBorder = arr.id
-    //         for (getLocal; getLocal < 1000; alter++) {
-    //             if (getLocal%2 == 0) {
-    //                 document.getElementById(applyBorder).style.border = "1px solid blue";
-    //                 document.getElementById(applyBorder).style.borderRadius = "4px";
-    //                 getBorderedElement = document.getElementById(applyBorder);
-    //                 getBorderedElement.classList.remove("otherclass");
-    //                 localStorage.setItem("count",getLocal)
-    //                 rooftype = roof_type
-    //                 break;
-    //             }else{
-    //                 // getBorderedElement.style.border="transparent";
-    //                 document.getElementById(applyBorder).style.border = "transparent";
-    //                 getBorderedElement.classList.add("otherclass")
-    //                 localStorage.setItem("count",getLocal)
-    //                 rooftype="roof type not selected"
-    //                 break
-    //             }
-    //         }
-    //         // document.getElementById(applyBorder).style.border = "1px solid blue";
-    //         // document.getElementById(applyBorder).style.borderRadius = "4px";
-    //         // getBorderedElement = document.getElementById(applyBorder);
-    //         // getBorderedElement.classList.remove("otherclass");
-    //         // count = 0
-    //     }
-    // }
+  // for (let arr of array) {
+  //     if (arr.id == roof_type) {
+  //         applyBorder = arr.id
+  //         for (getLocal; getLocal < 1000; alter++) {
+  //             if (getLocal%2 == 0) {
+  //                 document.getElementById(applyBorder).style.border = "1px solid blue";
+  //                 document.getElementById(applyBorder).style.borderRadius = "4px";
+  //                 getBorderedElement = document.getElementById(applyBorder);
+  //                 getBorderedElement.classList.remove("otherclass");
+  //                 localStorage.setItem("count",getLocal)
+  //                 rooftype = roof_type
+  //                 break;
+  //             }else{
+  //                 // getBorderedElement.style.border="transparent";
+  //                 document.getElementById(applyBorder).style.border = "transparent";
+  //                 getBorderedElement.classList.add("otherclass")
+  //                 localStorage.setItem("count",getLocal)
+  //                 rooftype="roof type not selected"
+  //                 break
+  //             }
+  //         }
+  //         // document.getElementById(applyBorder).style.border = "1px solid blue";
+  //         // document.getElementById(applyBorder).style.borderRadius = "4px";
+  //         // getBorderedElement = document.getElementById(applyBorder);
+  //         // getBorderedElement.classList.remove("otherclass");
+  //         // count = 0
+  //     }
+  // }
 }
 
 function getRoofInclination(Roof_inclination) {
-    debugger
-    Roofinclination = Roof_inclination;
+  debugger
+  Roofinclination = Roof_inclination;
 
-    document.getElementById('0-grad').style.border = 'transparent'
-    document.getElementById('15-grad').style.border = 'transparent'
-    document.getElementById('30-grad').style.border = 'transparent'
+  document.getElementById('0-grad').style.border = 'transparent'
+  document.getElementById('15-grad').style.border = 'transparent'
+  document.getElementById('30-grad').style.border = 'transparent'
 
 
-    var getZero_gradient = document.getElementById("0-grad")
-    var getFifteen_gradient = document.getElementById("15-grad")
-    var getThirty_gradient = document.getElementById("30-grad")
+  var getZero_gradient = document.getElementById("0-grad")
+  var getFifteen_gradient = document.getElementById("15-grad")
+  var getThirty_gradient = document.getElementById("30-grad")
 
-    getZero_gradient.classList.add("otherclass");
-    getFifteen_gradient.classList.add("otherclass");
-    getThirty_gradient.classList.add("otherclass");
+  getZero_gradient.classList.add("otherclass");
+  getFifteen_gradient.classList.add("otherclass");
+  getThirty_gradient.classList.add("otherclass");
 
-    let array = [];
-    var get_roof_inclination_borderedElement;
-    array.push(getZero_gradient, getFifteen_gradient, getThirty_gradient)
 
-    for (let arr of array) {
-        if (arr.id == Roofinclination) {
-            let applyBorder = arr.id
-            document.getElementById(applyBorder).style.border = "1px solid blue"
-            document.getElementById(applyBorder).style.borderRadius = "4px";
-            get_roof_inclination_borderedElement = document.getElementById(applyBorder);
-            get_roof_inclination_borderedElement.classList.remove("otherclass");
-        }
+  var get_roof_inclination_borderedElement;
+  roofinclinationarray.push(getZero_gradient, getFifteen_gradient, getThirty_gradient)
+
+  for (let arr of roofinclinationarray) {
+    if (arr.id == Roofinclination) {
+      let applyBorder = arr.id
+      document.getElementById(applyBorder).style.border = "1px solid blue"
+      document.getElementById(applyBorder).style.borderRadius = "4px";
+      get_roof_inclination_borderedElement = document.getElementById(applyBorder);
+      get_roof_inclination_borderedElement.classList.remove("otherclass");
     }
+  }
 }
-var getPurchaseType;
+
+var leaseRooftop = false;
+var rentRooftop = false;
+var buyRooftop = false;
 
 function interestedConcept() {
-    debugger;
-    var concept = document.getElementsByName('purchase_type');
+  debugger;
 
-    for (i = 0; i < concept.length; i++) {
-        if (concept[i].checked)
-            getPurchaseType = concept[i].value;
-    }
-    console.log(getPurchaseType);
+  const checkleaseRooftop = document.querySelector('#leaseRooftop');
+  const checkrentRooftop = document.querySelector('#rentRooftop');
+  const checkbuyRooftop = document.querySelector('#buyRooftop');
+
+  leaseRooftop = checkleaseRooftop.checked
+  rentRooftop = checkrentRooftop.checked
+  buyRooftop = checkbuyRooftop.checked
+
 }
+
 
 function displayRadioValue() {
-    debugger;
-    var ele = document.getElementsByName('roofing');
+  debugger;
+  var ele = document.getElementsByName('roofing');
 
-    for (i = 0; i < ele.length; i++) {
-        if (ele[i].checked)
-            getRoofing = ele[i].value;
-    }
-    console.log(getRoofing);
+  for (i = 0; i < ele.length; i++) {
+    if (ele[i].checked)
+      getRoofing = ele[i].value;
+  }
 }
 
+document.getElementById("submit_button").disabled = true;
+var selectedFile;
 
-function submit() {
+$(document).ready(function () {
+  $("input").change(function () {
     debugger;
-    var Adress = document.getElementById("autocomplete").value
-    var ManualInput = document.getElementById("manualinput").value
+    var ManualInput = document.getElementById("manualInput").value
     var getBuildingHeight = document.getElementById("building_height").value
     var getUserFirstName = document.getElementById("firstname").value
     var getUserLastName = document.getElementById("lastname").value
@@ -154,62 +166,175 @@ function submit() {
     var getUserNotes = document.getElementById("notes_and_details").value
     var getUserPrivacyCheck = document.getElementById("privacycheck").value
 
-
-
-
-    // var result= " ";
-    // if (getLeaseRoofTop.checked == true){
-    //   var lg1= document.getElementById("lease_rooftop").value;
-    //   result= lg1 + " ";
-    // }
-    // else if (getRentRoofTop.checked == true){
-    //   var lg2= document.getElementById("rent_rooftop").value;
-    //   result= result + lg2 + " ";
-    // }
-    // else if (getBuyRoofTop.checked == true){
-    // document.write(result);
-    //   var lg3= document.getElementById("buy_rooftop").value;
-    //   result= result + lg3 ;
-    // }
-
-
     var obj = {
-        // getLeaseRoofTop:getLeaseRoofTop,
-        // getRentRoofTop:getRentRoofTop,
-        // getBuyRoofTop:getBuyRoofTop,
-        purchaseType:getPurchaseType,
-        adress: Adress,
-        manualInput: ManualInput,
-        rooftype: rooftype,
-        roofinclination: Roofinclination,
-        roofing: getRoofing,
-        getBuildingHeight: getBuildingHeight,
-        //User Information Form
-        userFirstName: getUserFirstName,
-        userLastName: getUserLastName,
-        userCompany: getUserCompany,
-        userAdress: getUserAdress,
-        userCountry: getUserCountry,
-        userEmail: getUserEmail,
-        userPhoneNumber: getUserPhoneNumber,
-        userAnulPowerConsumption: getUserAnulPowerConsumption,
-        userInputStates: getUserInputStates,
-        userNotes: getUserNotes,
-        userPrivacyCheck: getUserPrivacyCheck
+      // purchaseType:getPurchaseType,
+      leaseRooftop: leaseRooftop,
+      rentRooftop: rentRooftop,
+      buyRooftop: buyRooftop,
+      area: ManualInput,
+      roofType: rooftype,
+      roofInclination: Roofinclination,
+      roofing: getRoofing,
+      buildingHeight: getBuildingHeight,
+      //User Information Form
+      firstName: getUserFirstName,
+      lastName: getUserLastName,
+      company: getUserCompany,
+      address: getUserAdress,
+      country: getUserCountry,
+      email: getUserEmail,
+      phoneNumber: getUserPhoneNumber,
+      consumption: getUserAnulPowerConsumption,
+      // anputStates: getUserInputStates,
+      notes: getUserNotes,
+      privacyCheck: getUserPrivacyCheck,
+      locations: []
 
     }
 
-    console.log(obj);
+    var validationArray = []
+    validationArray.push(obj)
 
-    let ajax = new XMLHttpRequest()
-    ajax.open("POST", "http://localhost:3000/userInfo");
-    ajax.setRequestHeader("content-type", "application/json");
-    ajax.onprogress = function () { }
-    ajax.onload = function () {
-        console.log(this.response);
+    for (let valObj of validationArray) {
+      if (valObj.firstName == "" || valObj.lastName == "" ||
+        (valObj.leaseRooftop == "" && valObj.buyRooftop == "" && valObj.rentRooftop == "")) {
+        document.getElementById("submit_button").disabled = true;
+      } else {
+        document.getElementById("submit_button").disabled = false;
+      }
     }
-    ajax.send(JSON.stringify(obj))
+
+    //attach file
+    var fileInput = document.getElementById('formFile');
+    // fileInput.onchange = () => {
+      selectedFile = fileInput.files[0].fileName;
+      console.log(selectedFile);
+    // }
+  });
+});
+
+
+
+
+function submit() {
+  debugger;
+  // var Adress = document.getElementById("autocomplete").value
+  var ManualInput = document.getElementById("manualInput").value
+  var getBuildingHeight = document.getElementById("building_height").value
+  var getUserFirstName = document.getElementById("firstname").value
+  var getUserLastName = document.getElementById("lastname").value
+  var getUserCompany = document.getElementById("company").value
+  var getUserAdress = document.getElementById("adress").value
+  var getUserCountry = document.getElementById("country").value
+  var getUserEmail = document.getElementById("email").value
+  var getUserPhoneNumber = document.getElementById("phonenumber").value
+  var getUserAnulPowerConsumption = document.getElementById("anual_power_consumption").value
+  var getUserInputStates = document.getElementById("inputState").value
+  var getUserNotes = document.getElementById("notes_and_details").value
+  var getUserPrivacyCheck = document.getElementById("privacycheck").value
+
+
+  if (getUserPrivacyCheck == "on") {
+    getUserPrivacyCheck = true
+  } else {
+    getUserPrivacyCheck = false
+  }
+
+
+
+
+  // var result= " ";
+  // if (getLeaseRoofTop.checked == true){
+  //   var lg1= document.getElementById("lease_rooftop").value;
+  //   result= lg1 + " ";
+  // }
+  // else if (getRentRoofTop.checked == true){
+  //   var lg2= document.getElementById("rent_rooftop").value;
+  //   result= result + lg2 + " ";
+  // }
+  // else if (getBuyRoofTop.checked == true){
+  // document.write(result);
+  //   var lg3= document.getElementById("buy_rooftop").value;
+  //   result= result + lg3 ;
+  // }
+
+
+  var obj = {
+    // purchaseType:getPurchaseType,
+    leaseRooftop: leaseRooftop,
+    rentRooftop: rentRooftop,
+    buyRooftop: buyRooftop,
+    area: ManualInput,
+    roofType: rooftype,
+    roofInclination: Roofinclination,
+    roofing: getRoofing,
+    buildingHeight: getBuildingHeight,
+    //User Information Form
+    firstName: getUserFirstName,
+    lastName: getUserLastName,
+    company: getUserCompany,
+    address: getUserAdress,
+    country: getUserCountry,
+    email: getUserEmail,
+    phoneNumber: getUserPhoneNumber,
+    consumption: getUserAnulPowerConsumption,
+    // anputStates: getUserInputStates,
+    notes: getUserNotes,
+    privacyCheck: getUserPrivacyCheck,
+    attachement: selectedFile,
+    locations: []
+  }
+
+  obj.locations = createLocationObjects();
+  console.log("object", obj.locations);
+  // let ajax = new XMLHttpRequest()
+  // http://localhost:8081/api/solar-form
+  // http://localhost:3001/userInfo
+  // ajax.open("POST", "http://localhost:8081/api/solar-form");
+  // ajax.setRequestHeader("content-type", "application/json");
+  // ajax.onprogress = function () { }
+  // ajax.onload = function () {
+  //     console.log(this.response);
+  // }
+  // ajax.send(JSON.stringify(obj));
+
+  // fetch("http://localhost:8081/api/solar-form",
+  //   {
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     method: "POST",
+  //     body: JSON.stringify(obj)
+  //   })
+  //   .then(function (res) { console.log(res) })
+  //   .catch(function (res) { console.log(res) })
+
+
+
+  console.log("OBJECT", JSON.stringify(obj));
+  (async () => {
+    //http://localhost:8081/api/solar-form
+    const rawResponse = await fetch('http://localhost:3000/userInfo', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(obj)
+    });
+    const content = await rawResponse.json();
+
+    console.log(content);
+  })();
+
+  location.replace("thankyou.html")
+  //   }
+  // }
+  cleanAllAfterSave();
 }
+
+// mapSection
 
 let allAreas = []
 var map; // Global declaration of the map
@@ -217,22 +342,23 @@ var iw = new google.maps.InfoWindow(); // Global declaration of the infowindow
 var lat_longs = new Array();
 var markers = new Array();
 var drawingManager;
-let allLongLat = []
-let latlon = []
 var lat = 40.9403762
 var lng = -74.1318096
 var mapZoom = 13
 
+
 function getUserLocation() {
-  mapZoom = 18
+  mapZoom = 18;
   this.flag = true
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
+
 
       this.lat = position.coords.latitude;
       this.lng = position.coords.longitude;
 
       initialize()
+
     });
   } else {
     console.log("User didn't allow")
@@ -240,6 +366,7 @@ function getUserLocation() {
 }
 
 function initialize() {
+  console.log(lat + " " + lng);
   var myLatlng = new google.maps.LatLng(lat, lng);
   var myOptions = {
     zoom: mapZoom,
@@ -285,10 +412,17 @@ function cities() {
     lat = place.geometry.location.lat(),
       lng = place.geometry.location.lng();
 
-    console.log(lat);
-    console.log(lng);
+    // Then do whatever you want with them
+
+
+    // this.lat = place.geometry.location.lat();
+    // this.lng = place.geometry.location.lng();
+    // console.log(lat);
+    // console.log(lng);
 
     initialize()
+
+
   })
 }
 
@@ -300,14 +434,6 @@ function overlayClickListener(overlay) {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
-// $(function () {
-//   $('#save').click(function () {
-//     //iterate polygon vertices?
-//     // getLongLat()
-//     sumOfArea()
-//   });
-// });
-
 
 // area
 function sumOfArea() {
@@ -315,6 +441,9 @@ function sumOfArea() {
   function add(accumulator, a) {
     return accumulator + a;
   }
+  console.log(sum);
+  document.getElementById('manualInput').value = parseInt(sum)
+  // int(sum)
   document.getElementById("markedroof").innerHTML = parseInt(sum)
 }
 
@@ -356,32 +485,82 @@ function ConvertToRadian(input) {
   return (input * Math.PI) / 180;
 }
 
+var all_lonlat = [];
+var alllatlon = {}
+var objs
+
+
 function getLongLat() {
-  latlon = []
+  let latlon = []
+  debugger;
   const getlon_lan = document.getElementById('vertices').value;
-  console.log(getlon_lan);
   x = getlon_lan.replace(/[{()}]/g, '');
   var array = JSON.parse("[" + x + "]");
   while (array.length > 0) {
-    chunk = array.splice(0, 2)
+    chunk = array.splice(0, 2);
     latlon.push(chunk)
-    allLongLat.push(chunk)
-
   }
-  console.log(allLongLat);
   allAreas.push(GetArea(latlontocart(latlon)));
+  all_lonlat.push(latlon)
+
   sumOfArea()
+}
+var locArr = []
+
+function createLocationObjects() {
+  debugger
+  all_lonlat
+  for (let shape = 0; shape < all_lonlat.length; shape++) {
+    const eachShapeArr = all_lonlat[shape];
+    const shapeObject = eachShapeArr.map(x => ({
+      longitude: x[0],
+      latitude: x[1],
+      element: shape + 1,
+    }));
+    locArr.push(...shapeObject);
+    console.log("locArr", locArr);
+  }
+
+  return locArr
+}
+
+function cleanAllAfterSave() {
+  debugger;
+  clearMarkedArea();
+
+  document.getElementById("autocomplete").value = ''
+  document.getElementById("manualInput").value = ''
+  document.getElementById("building_height").value = ''
+  document.getElementById("firstname").value = ''
+  document.getElementById("lastname").value = ''
+  document.getElementById("company").value = ''
+  document.getElementById("adress").value = ''
+  document.getElementById("country").value = ''
+  document.getElementById("email").value = ''
+  document.getElementById("phonenumber").value = ''
+  document.getElementById("anual_power_consumption").value = ''
+  document.getElementById("inputState").value = ''
+  document.getElementById("notes_and_details").value = ''
+  document.getElementById("privacycheck").value = ''
+
+  clearRoofType();
+}
+
+function clearRoofType() {
+  debugger
+  rooftype = null
+  getRoofType()
+}
+function clearMarkedArea() {
+  allAreas = []
+  allLongLat = []
+  all_lonlat = []
+  sumOfArea()
+  initialize()
 }
 
 // google.maps.event.addDomListener(window, 'load', initialize);
 
 // var input = document.getElementById('autocomplete');
 // var autocomplete = new google.maps.places.Autocomplete(input);
-
-function clearMarkedArea() {
-  allAreas = []
-  allLongLat = []
-  sumOfArea()
-  initialize()
-}
 
