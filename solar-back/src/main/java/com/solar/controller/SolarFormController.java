@@ -66,7 +66,7 @@ public class SolarFormController {
             return fileName;
         }catch (Exception e){
             System.out.println(e);
-            return "image not uploaded";
+            return "file not uploaded";
         }
     }
 

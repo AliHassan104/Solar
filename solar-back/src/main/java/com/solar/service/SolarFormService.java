@@ -141,6 +141,7 @@ public class SolarFormService {
                 .rentRooftop(solarFormDto.getRentRooftop())
                 .buyRooftop(solarFormDto.getBuyRooftop())
                 .locations(solarFormDto.getLocations())
+                .attachment(solarFormDto.getAttachment())
 
                 .build();
     }
@@ -171,6 +172,7 @@ public class SolarFormService {
                 .rentRooftop(solarForm.getRentRooftop())
                 .buyRooftop(solarForm.getBuyRooftop())
                 .locations(solarForm.getLocations())
+                .attachment(solarForm.getAttachment())
 
                 .build();
     }

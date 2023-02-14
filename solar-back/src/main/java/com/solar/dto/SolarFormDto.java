@@ -39,4 +39,5 @@ public class SolarFormDto {
     private Boolean leaseRooftop;
     private Boolean rentRooftop;
     private Boolean buyRooftop;
+    private String attachment;
 }
