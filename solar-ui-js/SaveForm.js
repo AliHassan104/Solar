@@ -209,6 +209,7 @@ $(document).ready(function () {
 
 //attach file
 var selectedFile;
+var attachment;
 
 $(document).ready(function () {
   $("input").change(function () {
