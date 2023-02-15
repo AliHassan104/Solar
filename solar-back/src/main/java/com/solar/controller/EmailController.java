@@ -12,20 +12,19 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
-    // Sending a simple Email
     @PostMapping("/sendMail") public String sendMail(@RequestBody EmailDetailsDto details) {
         String status = emailService.sendSimpleMail(details);
         return status;
     }
 
-//    @PostMapping("/sendMailWithAttachment")
-//    public String sendMailWithAttachment(
-//            @RequestBody EmailDetailsDto details)
-//    {
-//        String status
-//                = emailService.sendMailWithAttachment(details);
-//
-//        return status;
-//    }
+    @PostMapping("/sendMailWithAttachment")
+    public String sendMailWithAttachment(
+            @RequestBody EmailDetailsDto details)
+    {
+        String status
+                = emailService.sendMailWithAttachment(details);
+
+        return status;
+    }
 
 }
