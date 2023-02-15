@@ -45,15 +45,15 @@ public class LocationService {
         return _location;
     }
 
-    public LocationDto updateLocation(Long id, LocationDto locationDto) {
+    public Location updateLocation(Long id, Location location) {
         try {
             Location updateLocation = getAllLocation().stream().filter(el -> el.getId().equals(id)).findAny().get();
             if (updateLocation != null) {
-                updateLocation.setLatitude(locationDto.getLatitude());
-                updateLocation.setElement(locationDto.getElement());
-                updateLocation.setLongitude(locationDto.getLongitude());
+                updateLocation.setLatitude(location.getLatitude());
+                updateLocation.setElement(location.getElement());
+                updateLocation.setLongitude(location.getLongitude());
             }
-            return toDto(locationRepository.save(updateLocation));
+            return locationRepository.save(updateLocation);
         }catch (Exception e){
             throw new RuntimeException("Cannot Update Solar Form "+e);
         }
