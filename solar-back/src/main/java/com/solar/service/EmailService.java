@@ -1,7 +1,6 @@
 package com.solar.service;
 
 import com.solar.dto.EmailDetailsDto;
-import com.solar.repository.SolarFormRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -22,19 +21,16 @@ public class EmailService {
 
 //    @Autowired
 //    private SolarFormService solarFormService;
-//
+
     @Value("${spring.mail.username}") private String sender;
 
-    // Method 1
-    // To send a simple email
-    public String sendSimpleMail(EmailDetailsDto details)
-    {
+    public String sendSimpleMail(EmailDetailsDto details) {
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(sender);
             mailMessage.setTo(details.getRecipient());
             mailMessage.setSubject(details.getSubject());
-//            mailMessage.setText(String.valueOf(solarFormService.getSolarFormById(Long.parseLong(String.valueOf(details.getId())))));
+            mailMessage.setText(String.valueOf(details.getSolarFormDto()));
             javaMailSender.send(mailMessage);
             return "Mail Sent Successfully...";
         }
@@ -43,47 +39,4 @@ public class EmailService {
             return "Error while Sending Mail";
         }
     }
-
-    // Method 2
-    // To send an email with attachment
-//    public String
-//    sendMailWithAttachment(EmailDetailsDto details)
-//    {
-//        // Creating a mime message
-//        MimeMessage mimeMessage
-//                = javaMailSender.createMimeMessage();
-//        MimeMessageHelper mimeMessageHelper;
-//
-//        try {
-//
-//            // Setting multipart as true for attachments to
-//            // be send
-//            mimeMessageHelper
-//                    = new MimeMessageHelper(mimeMessage, true);
-//            mimeMessageHelper.setFrom(sender);
-//            mimeMessageHelper.setTo(details.getRecipient());
-//            mimeMessageHelper.setText(details.getMsgBody());
-//            mimeMessageHelper.setSubject(
-//                    details.getSubject());
-//
-//            // Adding the attachment
-//            FileSystemResource file
-//                    = new FileSystemResource(
-//                    new File(details.getAttachment()));
-//
-//            mimeMessageHelper.addAttachment(
-//                    file.getFilename(), file);
-//
-//            // Sending the mail
-//            javaMailSender.send(mimeMessage);
-//            return "Mail sent Successfully";
-//        }
-//
-//        // Catch block to handle MessagingException
-//        catch (MessagingException e) {
-//
-//            // Display message when exception occurred
-//            return "Error while sending mail!!!";
-//        }
-//    }
 }

@@ -50,7 +50,7 @@ public class SolarFormController {
     }
 
     @PostMapping()
-    public ResponseEntity<SolarFormDto> addAchievements(@RequestBody SolarFormDto solarFormDto) {
+    public ResponseEntity<SolarFormDto> addSolarForm(@RequestBody SolarFormDto solarFormDto) {
         try{
             return ResponseEntity.ok(solarFormService.addSolarForm(solarFormDto));
         }catch (Exception e){

@@ -13,7 +13,7 @@ import lombok.*;
 public class EmailDetailsDto {
     private String recipient;
     private String subject;
-    private Long id;
-//    private String attachment;
+    private SolarFormDto solarFormDto;
+
 }
 
