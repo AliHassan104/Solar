@@ -204,14 +204,30 @@ $(document).ready(function () {
       }
     }
 
-    //attach file
-    var fileInput = document.getElementById('formFile');
-    // fileInput.onchange = () => {
-      selectedFile = fileInput.files[0].fileName;
-      console.log(selectedFile);
-    // }
+
   });
 });
+
+    //attach file
+    // var fileInput = document.getElementById('formFile');
+    // var formData = new FormData();
+    //     for (const file of fileInput.files) {
+    //         formData.append("image", file)
+    //     }
+    // (async () => {
+    //   //http://localhost:8081/api/solar-form
+    //   const rawResponse = await fetch('http://localhost:8081/api/solar-form/image', {
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     method: 'POST',
+    //     body: selectedFile
+    //   });
+    //   const content = await rawResponse.json();
+  
+    //   console.log(content);
+    // })();
 
 
 
@@ -281,7 +297,7 @@ function submit() {
     // anputStates: getUserInputStates,
     notes: getUserNotes,
     privacyCheck: getUserPrivacyCheck,
-    attachement: selectedFile,
+    // attachement: selectedFile,
     locations: []
   }
 
@@ -315,7 +331,7 @@ function submit() {
   console.log("OBJECT", JSON.stringify(obj));
   (async () => {
     //http://localhost:8081/api/solar-form
-    const rawResponse = await fetch('http://localhost:3000/userInfo', {
+    const rawResponse = await fetch('http://localhost:8081/api/solar-form', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -328,7 +344,7 @@ function submit() {
     console.log(content);
   })();
 
-  location.replace("thankyou.html")
+  // location.replace("thankyou.html")
   //   }
   // }
   cleanAllAfterSave();
