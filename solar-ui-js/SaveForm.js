@@ -361,7 +361,7 @@ function submit() {
     console.log(content);
   })();
 
-  // location.replace("thankyou.html")
+  location.replace("thankyou.html");
   //   }
   // }
   cleanAllAfterSave();
