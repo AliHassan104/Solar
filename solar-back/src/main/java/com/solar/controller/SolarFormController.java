@@ -59,6 +59,7 @@ public class SolarFormController {
         }
     }
 
+
     @PostMapping("/image")
     public String addImage(@RequestParam("image") MultipartFile image) {
         try{
