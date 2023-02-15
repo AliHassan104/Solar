@@ -147,7 +147,6 @@ function displayRadioValue() {
 }
 
 document.getElementById("submit_button").disabled = true;
-var selectedFile;
 
 $(document).ready(function () {
   $("input").change(function () {
@@ -208,12 +207,27 @@ $(document).ready(function () {
   });
 });
 
-    //attach file
-    // var fileInput = document.getElementById('formFile');
-    // var formData = new FormData();
-    //     for (const file of fileInput.files) {
-    //         formData.append("image", file)
-    //     }
+//attach file
+var selectedFile;
+
+$(document).ready(function () {
+  $("input").change(function () {
+    debugger
+    var fileInput = document.getElementById('formFile');
+
+    selectedFile = new FormData();
+    for (const file of fileInput.files) {
+      selectedFile.append("image", file)
+    }
+
+    var xhr = new XMLHttpRequest();              // create XMLHttpRequest
+    xhr.onload = function () {
+      attachment= this.responseText
+      console.log(this.responseText); // whatever the server returns
+    }
+
+    xhr.open("post", "http://localhost:8081/api/solar-form/image");      // open connection
+    xhr.send(selectedFile);
     // (async () => {
     //   //http://localhost:8081/api/solar-form
     //   const rawResponse = await fetch('http://localhost:8081/api/solar-form/image', {
@@ -225,15 +239,16 @@ $(document).ready(function () {
     //     body: selectedFile
     //   });
     //   const content = await rawResponse.json();
-  
+
     //   console.log(content);
     // })();
 
 
+  });
+});
 
 
 function submit() {
-  debugger;
   // var Adress = document.getElementById("autocomplete").value
   var ManualInput = document.getElementById("manualInput").value
   var getBuildingHeight = document.getElementById("building_height").value
@@ -273,7 +288,9 @@ function submit() {
   //   var lg3= document.getElementById("buy_rooftop").value;
   //   result= result + lg3 ;
   // }
+  debugger;
 
+  attachment
 
   var obj = {
     // purchaseType:getPurchaseType,
@@ -297,7 +314,7 @@ function submit() {
     // anputStates: getUserInputStates,
     notes: getUserNotes,
     privacyCheck: getUserPrivacyCheck,
-    // attachement: selectedFile,
+    attachment: attachment,
     locations: []
   }
 
