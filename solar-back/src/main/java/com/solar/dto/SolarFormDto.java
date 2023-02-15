@@ -3,7 +3,6 @@ package com.solar.dto;
 import com.solar.modal.Location;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

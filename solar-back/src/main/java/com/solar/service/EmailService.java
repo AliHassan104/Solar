@@ -19,6 +19,9 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+//    @Autowired
+//    private SolarFormService solarFormService;
+
     @Value("${spring.mail.username}") private String sender;
 
     public String sendSimpleMail(EmailDetailsDto details) {
@@ -27,31 +30,13 @@ public class EmailService {
             mailMessage.setFrom(sender);
             mailMessage.setTo(details.getRecipient());
             mailMessage.setSubject(details.getSubject());
+            mailMessage.setText(String.valueOf(details.getSolarFormDto()));
             javaMailSender.send(mailMessage);
             return "Mail Sent Successfully...";
         }
         catch (Exception e) {
             e.printStackTrace();
             return "Error while Sending Mail";
-        }
-    }
-
-   public String sendMailWithAttachment(EmailDetailsDto details) {
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper;
-        try {
-            mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-            mimeMessageHelper.setFrom(sender);
-            mimeMessageHelper.setTo(details.getRecipient());
-            mimeMessageHelper.setText(details.getSubject());
-            mimeMessageHelper.setSubject(details.getSubject());
-            FileSystemResource file = new FileSystemResource(new File(details.getAttachment()));
-            mimeMessageHelper.addAttachment(file.getFilename(), file);
-            javaMailSender.send(mimeMessage);
-            return "Mail sent Successfully";
-        }
-        catch (MessagingException e) {
-            return "Error while sending mail!!!";
         }
     }
 }

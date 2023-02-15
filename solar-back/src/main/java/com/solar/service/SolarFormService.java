@@ -69,7 +69,7 @@ public class SolarFormService {
 
         SolarFormDto _solarFormDto = toDto(solarFormRepository.save(dto(solarFormDto)));
 
-        emailService.sendSimpleMail(new EmailDetailsDto("alihassan@gmail.com","SolarForm",_solarFormDto.getId()));
+        emailService.sendSimpleMail(new EmailDetailsDto("alihassan48484@gmail.com","Solar Form",_solarFormDto));
 
         return _solarFormDto;
     }
