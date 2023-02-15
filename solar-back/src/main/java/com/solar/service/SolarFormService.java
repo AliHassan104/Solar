@@ -2,6 +2,7 @@ package com.solar.service;
 
 import com.solar.dto.EmailDetailsDto;
 import com.solar.dto.SolarFormDto;
+import com.solar.modal.Location;
 import com.solar.modal.SolarForm;
 import com.solar.repository.SolarFormRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,13 +64,23 @@ public class SolarFormService {
 
     public SolarFormDto addSolarForm(SolarFormDto solarFormDto) {
 
+        List<Location> locations = null;
+
         if (solarFormDto.getLocations()!=null){
-            locationService.addLocation(solarFormDto.getLocations());
+            locations = locationService.addLocation(solarFormDto.getLocations());
         }
 
         SolarFormDto _solarFormDto = toDto(solarFormRepository.save(dto(solarFormDto)));
 
         emailService.sendSimpleMail(new EmailDetailsDto("alihassan48484@gmail.com","Solar Form",_solarFormDto));
+
+        for (Location location : locations){
+            location.setSolar(dto(_solarFormDto));
+//            locationService.updateLocation(location.getId(), location);
+        }
+
+        locationService.addLocation(locations);
+
 
         return _solarFormDto;
     }
