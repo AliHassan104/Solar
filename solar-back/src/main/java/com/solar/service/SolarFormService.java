@@ -1,13 +1,9 @@
 package com.solar.service;
 
 import com.solar.dto.EmailDetailsDto;
-//import com.solar.dto.LocationDto;
 import com.solar.dto.SolarFormDto;
-import com.solar.modal.Location;
 import com.solar.modal.SolarForm;
-import com.solar.repository.LocationRepository;
 import com.solar.repository.SolarFormRepository;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -130,7 +126,6 @@ public class SolarFormService {
                 .notes(solarFormDto.getNotes())
                 .privacyCheck(solarFormDto.getPrivacyCheck())
 
-//                .location(solarFormDto.getLocation())
                 .roofType(solarFormDto.getRoofType())
                 .roofInclination(solarFormDto.getRoofInclination())
                 .roofing(solarFormDto.getRoofing())
