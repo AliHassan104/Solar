@@ -212,7 +212,7 @@ var selectedFile;
 var attachment;
 
 $(document).ready(function () {
-  $("input").change(function () {
+  $("#formFile").change(function () {
     debugger
     var fileInput = document.getElementById('formFile');
 
@@ -362,7 +362,7 @@ function submit() {
     console.log(content);
   })();
 
-  location.replace("thankyou.html");
+  // location.replace("thankyou.html");
   //   }
   // }
   cleanAllAfterSave();
