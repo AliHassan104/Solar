@@ -223,27 +223,12 @@ $(document).ready(function () {
 
     var xhr = new XMLHttpRequest();              // create XMLHttpRequest
     xhr.onload = function () {
-      attachment= this.responseText
+      attachment = this.responseText
       console.log(this.responseText); // whatever the server returns
     }
 
     xhr.open("post", "http://localhost:8081/api/solar-form/image");      // open connection
     xhr.send(selectedFile);
-    // (async () => {
-    //   //http://localhost:8081/api/solar-form
-    //   const rawResponse = await fetch('http://localhost:8081/api/solar-form/image', {
-    //     headers: {
-    //       'Accept': 'application/json',
-    //       'Content-Type': 'application/json'
-    //     },
-    //     method: 'POST',
-    //     body: selectedFile
-    //   });
-    //   const content = await rawResponse.json();
-
-    //   console.log(content);
-    // })();
-
 
   });
 });
@@ -273,28 +258,11 @@ function submit() {
   }
 
 
-
-
-  // var result= " ";
-  // if (getLeaseRoofTop.checked == true){
-  //   var lg1= document.getElementById("lease_rooftop").value;
-  //   result= lg1 + " ";
-  // }
-  // else if (getRentRoofTop.checked == true){
-  //   var lg2= document.getElementById("rent_rooftop").value;
-  //   result= result + lg2 + " ";
-  // }
-  // else if (getBuyRoofTop.checked == true){
-  // document.write(result);
-  //   var lg3= document.getElementById("buy_rooftop").value;
-  //   result= result + lg3 ;
-  // }
   debugger;
 
   attachment
 
   var obj = {
-    // purchaseType:getPurchaseType,
     leaseRooftop: leaseRooftop,
     rentRooftop: rentRooftop,
     buyRooftop: buyRooftop,
@@ -303,7 +271,6 @@ function submit() {
     roofInclination: Roofinclination,
     roofing: getRoofing,
     buildingHeight: getBuildingHeight,
-    //User Information Form
     firstName: getUserFirstName,
     lastName: getUserLastName,
     company: getUserCompany,
@@ -312,7 +279,6 @@ function submit() {
     email: getUserEmail,
     phoneNumber: getUserPhoneNumber,
     consumption: getUserAnulPowerConsumption,
-    // anputStates: getUserInputStates,
     notes: getUserNotes,
     privacyCheck: getUserPrivacyCheck,
     attachment: attachment,
@@ -320,33 +286,9 @@ function submit() {
   }
 
   obj.locations = createLocationObjects();
-  console.log("object", obj.locations);
-  // let ajax = new XMLHttpRequest()
-  // http://localhost:8081/api/solar-form
-  // http://localhost:3001/userInfo
-  // ajax.open("POST", "http://localhost:8081/api/solar-form");
-  // ajax.setRequestHeader("content-type", "application/json");
-  // ajax.onprogress = function () { }
-  // ajax.onload = function () {
-  //     console.log(this.response);
-  // }
-  // ajax.send(JSON.stringify(obj));
+  // console.log("object", obj.locations);
 
-  // fetch("http://localhost:8081/api/solar-form",
-  //   {
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     method: "POST",
-  //     body: JSON.stringify(obj)
-  //   })
-  //   .then(function (res) { console.log(res) })
-  //   .catch(function (res) { console.log(res) })
-
-
-
-  console.log("OBJECT", JSON.stringify(obj));
+  // console.log("OBJECT", JSON.stringify(obj));
   (async () => {
     //http://localhost:8081/api/solar-form
     const rawResponse = await fetch('http://localhost:8081/api/solar-form', {
@@ -362,9 +304,7 @@ function submit() {
     console.log(content);
   })();
 
-  // location.replace("thankyou.html");
-  //   }
-  // }
+  location.replace("thankyou.html");
   cleanAllAfterSave();
 }
 
@@ -432,9 +372,6 @@ function initialize() {
     getLongLat()
   });
 
-  // var input = document.getElementById('searchTextField');
-  // new google.maps.places.Autocomplete(input);
-
 }
 
 function cities() {
@@ -445,14 +382,6 @@ function cities() {
 
     lat = place.geometry.location.lat(),
       lng = place.geometry.location.lng();
-
-    // Then do whatever you want with them
-
-
-    // this.lat = place.geometry.location.lat();
-    // this.lng = place.geometry.location.lng();
-    // console.log(lat);
-    // console.log(lng);
 
     initialize()
 
