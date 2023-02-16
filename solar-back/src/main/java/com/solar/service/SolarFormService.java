@@ -63,25 +63,15 @@ public class SolarFormService {
     }
 
     public SolarFormDto addSolarForm(SolarFormDto solarFormDto) {
-
         List<Location> locations = null;
-
-        if (solarFormDto.getLocations()!=null){
-            locations = locationService.addLocation(solarFormDto.getLocations());
-        }
-
         SolarFormDto _solarFormDto = toDto(solarFormRepository.save(dto(solarFormDto)));
-
-        emailService.sendSimpleMail(new EmailDetailsDto("alihassan48484@gmail.com","Solar Form",_solarFormDto));
-
-        for (Location location : locations){
-            location.setSolar(dto(_solarFormDto));
-//            locationService.updateLocation(location.getId(), location);
+        if (solarFormDto.getLocations()!=null){
+            for (Location location : locations){
+                location.setSolar(dto(_solarFormDto));
+            }
+            locationService.addLocation(solarFormDto.getLocations());
         }
-
-        locationService.addLocation(locations);
-
-
+        emailService.sendSimpleMail(new EmailDetailsDto("alihassan48484@gmail.com","Solar Form",_solarFormDto));
         return _solarFormDto;
     }
 
