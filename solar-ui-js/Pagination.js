@@ -74,3 +74,43 @@ function myFunction() {
       x.className = "topnav";
     }
   }
+
+  count=2
+  localStorage.setItem('imageslide',(count))
+  function changeBackground(){
+debugger
+    var imageOne;
+    var imageTwo;
+    var getcount;
+        getcount = localStorage.getItem('imageslide')
+        if(getcount%2 == 0){
+            imageOne=true;
+            imageTwo=false
+        }else{
+            imageOne=false;
+            imageTwo=true
+        }
+
+    if(imageOne == true){
+        document.getElementById('img_two').style.display= "none";
+        document.getElementById('img_one').style.display = "block";
+        incresaseCount = localStorage.getItem('imageslide')
+        incresaseCount++
+        localStorage.setItem('imageslide',(incresaseCount))
+      } else if(imageTwo == true){
+        document.getElementById('img_one').style.display= "none";
+        document.getElementById('img_two').style.display = "block";
+        incresaseCount = localStorage.getItem('imageslide')
+        incresaseCount++
+        localStorage.setItem('imageslide',(incresaseCount))
+      }
+
+    // if(imageOne == true){
+    //     document.getElementById('img_one').style.display= "none";
+    // } else if(imageOne == false) {
+    //     document.getElementById('img_one').style.display= "none";
+    //     document.getElementById('img_two').style.display = "block";
+    // }
+
+
+  }
