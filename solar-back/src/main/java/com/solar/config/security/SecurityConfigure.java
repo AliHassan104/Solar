@@ -38,6 +38,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/**").permitAll()
 //                .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/solar-form").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/view/image/{filename:.+}").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/solar-form/image").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/login").permitAll()
 

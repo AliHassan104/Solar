@@ -19,7 +19,7 @@ public class ImageController {
     @Autowired
     SolarFormService solarFormService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/view/image/{filename:.+}")
     public ResponseEntity<InputStreamResource> getImageApiUrl(@PathVariable String filename) {
         return solarFormService.getImage(filename);
