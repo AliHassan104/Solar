@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ public class ImageController {
     @Autowired
     SolarFormService solarFormService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/view/image/{filename:.+}")
     public ResponseEntity<InputStreamResource> getImageApiUrl(@PathVariable String filename) {
         return solarFormService.getImage(filename);
