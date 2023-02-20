@@ -121,7 +121,7 @@ function getRoofInclination(Roof_inclination) {
 var leaseRooftop = false;
 var rentRooftop = false;
 var buyRooftop = false;
-
+interestedConcept()
 function interestedConcept() {
   debugger;
 
@@ -175,7 +175,6 @@ $(document).ready(function () {
       roofInclination: Roofinclination,
       roofing: getRoofing,
       buildingHeight: getBuildingHeight,
-      //User Information Form
       firstName: getUserFirstName,
       lastName: getUserLastName,
       company: getUserCompany,
@@ -184,9 +183,9 @@ $(document).ready(function () {
       email: getUserEmail,
       phoneNumber: getUserPhoneNumber,
       consumption: getUserAnulPowerConsumption,
-      // anputStates: getUserInputStates,
       notes: getUserNotes,
       privacyCheck: getUserPrivacyCheck,
+      attachment: attachment,
       locations: []
 
     }
@@ -196,7 +195,8 @@ $(document).ready(function () {
 
     for (let valObj of validationArray) {
       if (valObj.firstName == "" || valObj.lastName == "" ||
-        (valObj.leaseRooftop == "" && valObj.buyRooftop == "" && valObj.rentRooftop == "")) {
+        (valObj.leaseRooftop == false && valObj.rentRooftop == false && valObj.buyRooftop == false) ||
+        valObj.email == "" || valObj.address == "" || valObj.country == "" || valObj.area == "") {
         document.getElementById("submit_button").disabled = true;
       } else {
         document.getElementById("submit_button").disabled = false;
@@ -288,9 +288,10 @@ function submit() {
   obj.locations = createLocationObjects();
   // console.log("object", obj.locations);
 
-  // console.log("OBJECT", JSON.stringify(obj));
+  console.log("OBJECT", JSON.stringify(obj));
   (async () => {
     //http://localhost:8081/api/solar-form
+    //http://localhost:3000/solarForm
     const rawResponse = await fetch('http://localhost:8081/api/solar-form', {
       headers: {
         'Accept': 'application/json',
@@ -468,7 +469,7 @@ function getLongLat() {
 
   sumOfArea()
 }
-var locArr = []
+var locArr = [];
 
 function createLocationObjects() {
   debugger
@@ -478,7 +479,7 @@ function createLocationObjects() {
     const shapeObject = eachShapeArr.map(x => ({
       longitude: x[0],
       latitude: x[1],
-      element: shape + 1,
+      element: `shape ${shape + 1}`,
     }));
     locArr.push(...shapeObject);
     console.log("locArr", locArr);

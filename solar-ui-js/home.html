@@ -11,7 +11,7 @@
 
     <style>
 
-      
+
     </style>
 </head>
 
@@ -51,8 +51,7 @@
                             <div class="h-dis-fl h-jus-fl-e change_directions_responsive" style="align-items:center">
                                 <div class="nav-item">
                                     <div class="caption fh--clr-brand-one fh--weight-600">
-                                        <a
-                                            href="/index.html">Purchase</a>
+                                        <a href="/index.html">Tool</a>
                                     </div>
                                 </div>
                                 <div class="nav-item">
@@ -326,14 +325,18 @@
                                     <div class="testimonial__nav-row">
                                         <div>
                                             <div style="display:flex">
-                                                <div class="gallery__button gallery__button--small"><svg width="14"
-                                                        (click)="changeBackground()" height="24" fill="none"
+                                                <div class="gallery__button gallery__button--small">
+                                                    <svg width="14"
+                                                        onclick="changeBackground()" height="24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg" type="arrowLeft">
                                                         <path d="m11.757 2.52-9.428 9.427 9.428 9.427" stroke="#FF8C22"
                                                             stroke-width="4" stroke-linecap="round"
-                                                            stroke-linejoin="round"></path>
-                                                    </svg></div>  <div class="gallery__button gallery__button--small">
-                                                    <svg width="14" (click)="changeBackground()" height="24" fill="none"
+                                                            stroke-linejoin="round">
+                                                        </path>
+                                                    </svg>
+                                                </div>  
+                                                <div class="gallery__button gallery__button--small">
+                                                    <svg width="14" onclick="changeBackground()" height="24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg" type="arrowRight">
                                                         <path fill-rule="evenodd" clip-rule="evenodd"
                                                             d="M.915 1.105a2 2 0 0 1 2.829 0l9.427 9.428a2 2 0 0 1 0 2.828l-9.427 9.427A2 2 0 1 1 .915 19.96l8.013-8.013L.915 3.934a2 2 0 0 1 0-2.829Z"
@@ -345,11 +348,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="testimonial__background-image"><img *ngIf="IsShowSolar" @fade class="img "
-                                alt="Eigenverbrauch"
+                        <div class="testimonial__background-image">
+                            <img class="img"
+                                alt="Eigenverbrauch" id="img_one"
                                 src="https://a.storyblok.com/f/173394/1400x933/7536f5363e/eigenverbrauch.jpg/m/smart" />
 
-                            <img class="img" *ngIf="IsShowSmart" @fade alt="Eigenverbrauch"
+                            <img class="img" id="img_two" alt="Eigenverbrauch"
                                 src="assets/smartslider.webp" />
                         </div>
                     </div>
