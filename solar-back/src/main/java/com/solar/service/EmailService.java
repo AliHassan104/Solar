@@ -31,7 +31,7 @@ public class EmailService {
             mailMessage.setSubject(details.getSubject());
 //            mailMessage.setText(String.valueOf(details.getSolarFormDto()));
             mailMessage.setText("id : "+details.getSolarFormDto().getId()+"\n"+
-                                "Name : "+details.getSolarFormDto().getFirstName()+details.getSolarFormDto().getLastName()+"\n"+
+                                "Name : "+details.getSolarFormDto().getFirstName()+" "+details.getSolarFormDto().getLastName()+"\n"+
                                 "Company : "+details.getSolarFormDto().getCompany()+"\n"+
                                 "Address : "+details.getSolarFormDto().getAddress()+"\n"+
                                 "Country : "+details.getSolarFormDto().getCountry()+"\n"+

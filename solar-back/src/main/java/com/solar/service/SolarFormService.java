@@ -1,14 +1,20 @@
 package com.solar.service;
 
 import com.solar.dto.EmailDetailsDto;
+import com.solar.dto.SearchCriteria;
 import com.solar.dto.SolarFormDto;
 import com.solar.modal.Location;
 import com.solar.modal.SolarForm;
 import com.solar.repository.SolarFormRepository;
+import com.solar.repository.specification.SolarFormSpecification;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,6 +27,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class SolarFormService {
@@ -45,6 +52,12 @@ public class SolarFormService {
         return solarFormRepository.findAll();
     }
 
+    public Page<SolarForm> getAllSolarFormWithPagination(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+        Page<SolarForm> solarFormPage = solarFormRepository.findAll(pageable);
+        return solarFormPage;
+    }
+
     public SolarFormDto getSolarFormById(Long id) throws Exception {
         Optional<SolarForm> solarForm =  solarFormRepository.findById(id);
         if(solarForm.isPresent()){
@@ -63,22 +76,16 @@ public class SolarFormService {
     }
 
     public SolarFormDto addSolarForm(SolarFormDto solarFormDto) {
-
         List<Location> locations = null;
-
         if (solarFormDto.getLocations()!=null){
             locations = locationService.addLocation(solarFormDto.getLocations());
         }
-
         SolarFormDto _solarFormDto = toDto(solarFormRepository.save(dto(solarFormDto)));
-
+        emailService.sendSimpleMail(new EmailDetailsDto("alihassan48484@gmail.com","Solar Form",solarFormDto));
         for (Location location : locations){
             location.setSolar(dto(_solarFormDto));
             locationService.updateLocation(location.getId(), location);
         }
-
-//        emailService.sendSimpleMail(new EmailDetailsDto("alihassan48484@gmail.com","Solar Form",_solarFormDto));
-
         return _solarFormDto;
     }
 
@@ -217,4 +224,16 @@ public class SolarFormService {
             throw new RuntimeException("Error: " + e.getMessage());
         }
     }
+
+    public List<SolarForm> getFilteredSolarForm(SearchCriteria searchCriteria) {
+        try {
+            SolarFormSpecification solarFormSpecification = new SolarFormSpecification(searchCriteria);
+            List<SolarForm> solarForms = solarFormRepository.findAll(solarFormSpecification);
+            return solarForms;
+        }
+        catch (Exception e){
+            throw new RuntimeException("No Complain Exist "+e);
+        }
+    }
+
 }
