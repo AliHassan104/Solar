@@ -20,10 +20,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,6 +42,7 @@ public class SolarFormService {
     private SolarFormRepository solarFormRepository;
     private LocationService locationService;
     private EmailService emailService;
+    private EntityManager entityManager;
 
     @Value("${image.bucket.path}")
     private String imageBucketPath;
@@ -42,10 +50,12 @@ public class SolarFormService {
     @Value("${image.api.url}")
     private String imageApiUrl;
 
-    public SolarFormService(SolarFormRepository solarFormRepository, LocationService locationService, EmailService emailService) {
+    public SolarFormService(SolarFormRepository solarFormRepository, LocationService locationService
+            , EmailService emailService , EntityManager entityManager) {
         this.solarFormRepository = solarFormRepository;
         this.locationService = locationService;
         this.emailService = emailService;
+        this.entityManager = entityManager;
     }
 
     public List<SolarForm> getAllSolarForm(){
@@ -225,15 +235,38 @@ public class SolarFormService {
         }
     }
 
-    public List<SolarForm> getFilteredSolarForm(SearchCriteria searchCriteria) {
-        try {
-            SolarFormSpecification solarFormSpecification = new SolarFormSpecification(searchCriteria);
-            List<SolarForm> solarForms = solarFormRepository.findAll(solarFormSpecification);
-            return solarForms;
+//    public List<SolarForm> getFilteredSolarForm(SearchCriteria searchCriteria) {
+//        try {
+//            SolarFormSpecification solarFormSpecification = new SolarFormSpecification(searchCriteria);
+//            List<SolarForm> solarForms = solarFormRepository.findAll(solarFormSpecification);
+//            return solarForms;
+//        }
+//        catch (Exception e){
+//            throw new RuntimeException("No Complain Exist "+e);
+//        }
+//    }
+
+    public List<SolarForm> getSolarFormFiltered(String firstName, String lastName, String email) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<SolarForm> criteriaQuery = criteriaBuilder.createQuery(SolarForm.class);
+        Root<SolarForm> solarFormRoot = criteriaQuery.from(SolarForm.class);
+        List<Predicate> predicates = new ArrayList<>();
+        if (firstName!=null){
+            predicates.add(criteriaBuilder.equal(solarFormRoot.get("firstName"),firstName));
         }
-        catch (Exception e){
-            throw new RuntimeException("No Complain Exist "+e);
+        if (lastName!=null){
+            predicates.add(criteriaBuilder.equal(solarFormRoot.get("lastName"),lastName));
         }
+        if (email!=null){
+            predicates.add(criteriaBuilder.equal(solarFormRoot.get("email"),email));
+        }
+        criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
+
+        TypedQuery<SolarForm> query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
+    public long count() {
+        return solarFormRepository.count();
+    }
 }
