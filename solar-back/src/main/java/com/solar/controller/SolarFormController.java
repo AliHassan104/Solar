@@ -79,10 +79,22 @@ public class SolarFormController {
         }
     }
 
-    @PostMapping("/solar-form/search")
-    public ResponseEntity<List<SolarForm>> filteredComplain(@RequestBody SearchCriteria searchCriteria){
-        List<SolarForm> solarForms = solarFormService.getFilteredSolarForm(searchCriteria);
-        return ResponseEntity.ok(solarForms);
+//    @PostMapping("/search")
+//    public ResponseEntity<List<SolarForm>> filteredSolarForm(@RequestBody SearchCriteria searchCriteria){
+//        List<SolarForm> solarForms = solarFormService.getFilteredSolarForm(searchCriteria);
+//        return ResponseEntity.ok(solarForms);
+//    }
+
+    @GetMapping("/search")
+    public List<SolarForm> getSolarFormFiltered(@RequestParam(required = false) String firstName,
+                                                @RequestParam(required = false) String lastName,
+                                                @RequestParam(required = false) String email) {
+        return solarFormService.getSolarFormFiltered(firstName,lastName,email);
+    }
+
+    @GetMapping("/count")
+    public long count() {
+        return solarFormService.count();
     }
 
 }
