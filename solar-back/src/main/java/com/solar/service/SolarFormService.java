@@ -81,7 +81,7 @@ public class SolarFormService {
             locations = locationService.addLocation(solarFormDto.getLocations());
         }
         SolarFormDto _solarFormDto = toDto(solarFormRepository.save(dto(solarFormDto)));
-        emailService.sendSimpleMail(new EmailDetailsDto("alihassan48484@gmail.com","Solar Form",solarFormDto));
+        emailService.sendSimpleMail(new EmailDetailsDto("m32usman12@gmail.com","Solar Form",solarFormDto));
         for (Location location : locations){
             location.setSolar(dto(_solarFormDto));
             locationService.updateLocation(location.getId(), location);

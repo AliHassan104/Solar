@@ -75,7 +75,7 @@ function myFunction() {
     }
   }
 
-  count=2
+  count=1
   localStorage.setItem('imageslide',(count))
   function changeBackground(){
 debugger
