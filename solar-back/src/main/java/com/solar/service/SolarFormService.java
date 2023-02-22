@@ -235,16 +235,16 @@ public class SolarFormService {
         }
     }
 
-    public List<SolarForm> getFilteredSolarForm(SearchCriteria searchCriteria) {
-        try {
-            SolarFormSpecification solarFormSpecification = new SolarFormSpecification(searchCriteria);
-            List<SolarForm> solarForms = solarFormRepository.findAll(solarFormSpecification);
-            return solarForms;
-        }
-        catch (Exception e){
-            throw new RuntimeException("No Complain Exist "+e);
-        }
-    }
+//    public List<SolarForm> getFilteredSolarForm(SearchCriteria searchCriteria) {
+//        try {
+//            SolarFormSpecification solarFormSpecification = new SolarFormSpecification(searchCriteria);
+//            List<SolarForm> solarForms = solarFormRepository.findAll(solarFormSpecification);
+//            return solarForms;
+//        }
+//        catch (Exception e){
+//            throw new RuntimeException("No Complain Exist "+e);
+//        }
+//    }
 
     public List<SolarForm> getSolarFormFiltered(String firstName, String lastName, String email , Integer pageNumber , Integer pageSize) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

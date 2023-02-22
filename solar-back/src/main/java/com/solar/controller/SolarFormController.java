@@ -80,20 +80,20 @@ public class SolarFormController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/search")
-    public ResponseEntity<List<SolarForm>> filteredSolarForm(@RequestBody SearchCriteria searchCriteria){
-        List<SolarForm> solarForms = solarFormService.getFilteredSolarForm(searchCriteria);
-        return ResponseEntity.ok(solarForms);
-    }
-
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PostMapping("/search")
+//    public ResponseEntity<List<SolarForm>> filteredSolarForm(@RequestBody SearchCriteria searchCriteria){
+//        List<SolarForm> solarForms = solarFormService.getFilteredSolarForm(searchCriteria);
+//        return ResponseEntity.ok(solarForms);
+//    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/search")
     public List<SolarForm> getSolarFormFiltered(@RequestParam(required = false) String firstName,
                                                 @RequestParam(required = false) String lastName,
                                                 @RequestParam(required = false) String email,
                                                 @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
-                                                @RequestParam(value = "pageSize",defaultValue = "1",required = false) Integer pageSize
+                                                @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize
                                                 ) {
         return solarFormService.getSolarFormFiltered(firstName,lastName,email,pageNumber,pageSize);
     }
