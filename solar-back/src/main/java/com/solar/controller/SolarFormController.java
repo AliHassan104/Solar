@@ -28,7 +28,7 @@ public class SolarFormController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("")
     public ResponseEntity<Page<SolarForm>> getSolarForm(@RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
-                                                              @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize){
+                                                        @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize){
         Page<SolarForm> solarFormPage= solarFormService.getAllSolarFormWithPagination(pageNumber,pageSize);
         return ResponseEntity.ok(solarFormPage);
     }
@@ -79,19 +79,26 @@ public class SolarFormController {
         }
     }
 
-//    @PostMapping("/search")
-//    public ResponseEntity<List<SolarForm>> filteredSolarForm(@RequestBody SearchCriteria searchCriteria){
-//        List<SolarForm> solarForms = solarFormService.getFilteredSolarForm(searchCriteria);
-//        return ResponseEntity.ok(solarForms);
-//    }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/search")
+    public ResponseEntity<List<SolarForm>> filteredSolarForm(@RequestBody SearchCriteria searchCriteria){
+        List<SolarForm> solarForms = solarFormService.getFilteredSolarForm(searchCriteria);
+        return ResponseEntity.ok(solarForms);
+    }
+
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/search")
     public List<SolarForm> getSolarFormFiltered(@RequestParam(required = false) String firstName,
                                                 @RequestParam(required = false) String lastName,
-                                                @RequestParam(required = false) String email) {
-        return solarFormService.getSolarFormFiltered(firstName,lastName,email);
+                                                @RequestParam(required = false) String email,
+                                                @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+                                                @RequestParam(value = "pageSize",defaultValue = "1",required = false) Integer pageSize
+                                                ) {
+        return solarFormService.getSolarFormFiltered(firstName,lastName,email,pageNumber,pageSize);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/count")
     public long count() {
         return solarFormService.count();
