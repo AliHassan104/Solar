@@ -202,14 +202,14 @@ public class SolarFormService {
         final Path filePAth = Paths.get(imageBucketPath);
         Path imagePath = filePAth.resolve(filename);
         try {
-            Files.copy(image.getInputStream(),imagePath);//working
+            Files.copy(image.getInputStream(),imagePath);
             return imageApiUrl+filename;
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
 
     }
-    //working
+
     private String generateRandomImageName(MultipartFile file){
         String randomId = UUID.randomUUID().toString();
         String filename = file.getOriginalFilename();
@@ -235,34 +235,39 @@ public class SolarFormService {
         }
     }
 
-//    public List<SolarForm> getFilteredSolarForm(SearchCriteria searchCriteria) {
-//        try {
-//            SolarFormSpecification solarFormSpecification = new SolarFormSpecification(searchCriteria);
-//            List<SolarForm> solarForms = solarFormRepository.findAll(solarFormSpecification);
-//            return solarForms;
-//        }
-//        catch (Exception e){
-//            throw new RuntimeException("No Complain Exist "+e);
-//        }
-//    }
+    public List<SolarForm> getFilteredSolarForm(SearchCriteria searchCriteria) {
+        try {
+            SolarFormSpecification solarFormSpecification = new SolarFormSpecification(searchCriteria);
+            List<SolarForm> solarForms = solarFormRepository.findAll(solarFormSpecification);
+            return solarForms;
+        }
+        catch (Exception e){
+            throw new RuntimeException("No Complain Exist "+e);
+        }
+    }
 
-    public List<SolarForm> getSolarFormFiltered(String firstName, String lastName, String email) {
+    public List<SolarForm> getSolarFormFiltered(String firstName, String lastName, String email , Integer pageNumber , Integer pageSize) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<SolarForm> criteriaQuery = criteriaBuilder.createQuery(SolarForm.class);
         Root<SolarForm> solarFormRoot = criteriaQuery.from(SolarForm.class);
         List<Predicate> predicates = new ArrayList<>();
         if (firstName!=null){
-            predicates.add(criteriaBuilder.equal(solarFormRoot.get("firstName"),firstName));
+            predicates.add(criteriaBuilder.like(solarFormRoot.get("firstName"),firstName+"%"));
         }
         if (lastName!=null){
-            predicates.add(criteriaBuilder.equal(solarFormRoot.get("lastName"),lastName));
+            predicates.add(criteriaBuilder.like(solarFormRoot.get("lastName"),lastName+"%"));
         }
         if (email!=null){
-            predicates.add(criteriaBuilder.equal(solarFormRoot.get("email"),email));
+            predicates.add(criteriaBuilder.like(solarFormRoot.get("email"),email+"%"));
         }
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 
         TypedQuery<SolarForm> query = entityManager.createQuery(criteriaQuery);
+
+        query.setFirstResult(pageNumber * pageSize);
+//        query.setMaxResults(pageSize);
+
+//        Page<SolarForm> solarFormPage = query.getResultList();
         return query.getResultList();
     }
 
