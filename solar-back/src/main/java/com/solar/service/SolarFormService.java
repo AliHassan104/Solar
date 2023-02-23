@@ -246,7 +246,7 @@ public class SolarFormService {
 //        }
 //    }
 
-    public List<SolarForm> getSolarFormFiltered(String firstName, String lastName, String email , Integer pageNumber , Integer pageSize) {
+    public List<SolarForm> getSolarFormFiltered(String firstName, String lastName, String email) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<SolarForm> criteriaQuery = criteriaBuilder.createQuery(SolarForm.class);
         Root<SolarForm> solarFormRoot = criteriaQuery.from(SolarForm.class);
@@ -261,13 +261,7 @@ public class SolarFormService {
             predicates.add(criteriaBuilder.like(solarFormRoot.get("email"),email+"%"));
         }
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
-
         TypedQuery<SolarForm> query = entityManager.createQuery(criteriaQuery);
-
-        query.setFirstResult(pageNumber * pageSize);
-//        query.setMaxResults(pageSize);
-
-//        Page<SolarForm> solarFormPage = query.getResultList();
         return query.getResultList();
     }
 

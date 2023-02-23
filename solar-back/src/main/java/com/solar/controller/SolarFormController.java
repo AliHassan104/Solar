@@ -1,12 +1,9 @@
 package com.solar.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.solar.dto.SearchCriteria;
 import com.solar.dto.SolarFormDto;
 import com.solar.modal.SolarForm;
 import com.solar.service.SolarFormService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -79,7 +76,6 @@ public class SolarFormController {
         }
     }
 
-
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 //    @PostMapping("/search")
 //    public ResponseEntity<List<SolarForm>> filteredSolarForm(@RequestBody SearchCriteria searchCriteria){
@@ -89,13 +85,27 @@ public class SolarFormController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/search")
-    public List<SolarForm> getSolarFormFiltered(@RequestParam(required = false) String firstName,
+    public Page<SolarForm> getSolarFormFiltered(@RequestParam(required = false) String firstName,
                                                 @RequestParam(required = false) String lastName,
                                                 @RequestParam(required = false) String email,
-                                                @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
-                                                @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize
-                                                ) {
-        return solarFormService.getSolarFormFiltered(firstName,lastName,email,pageNumber,pageSize);
+                                                @RequestParam(value = "pageNumber",defaultValue = "1",required = false) Integer pageNumber,
+                                                @RequestParam(value = "pageSize",defaultValue = "5",required = false) Integer pageSize) {
+
+        Integer start = pageNumber;
+        Integer end = pageSize;
+        if (pageNumber>0){
+            start = (pageNumber*pageSize);
+            end = start + pageSize;
+        }
+
+        List<SolarForm> solarForms = solarFormService.getSolarFormFiltered(firstName,lastName,email);
+        PageImpl page;
+        if ((solarForms.size()-start) < (end-start)){
+            page = new PageImpl(solarForms.subList(start,solarForms.size()));
+        }else {
+            page = new PageImpl(solarForms.subList(start,end));
+        }
+        return page;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
