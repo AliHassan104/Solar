@@ -88,8 +88,8 @@ public class SolarFormController {
     public Page<SolarForm> getSolarFormFiltered(@RequestParam(required = false) String firstName,
                                                 @RequestParam(required = false) String lastName,
                                                 @RequestParam(required = false) String email,
-                                                @RequestParam(value = "pageNumber",defaultValue = "1",required = false) Integer pageNumber,
-                                                @RequestParam(value = "pageSize",defaultValue = "5",required = false) Integer pageSize) {
+                                                @RequestParam(value = "pageNumber",defaultValue = "0",required = false) Integer pageNumber,
+                                                @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
 
         Integer start = pageNumber;
         Integer end = pageSize;
