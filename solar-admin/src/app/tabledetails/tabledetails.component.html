@@ -2,54 +2,57 @@
      <div class="container">
 
        <div>
-         <label> <b> Name </b></label>
+         <label> <b> Name: </b></label>
          <span>{{tableDetails.firstName}} {{tableDetails.lastName}}</span>
        </div>
 
        <div>
-         <label> <b> Email </b></label>
+         <label> <b> Email: </b></label>
          <span>{{tableDetails.email}}</span>
        </div>
 
        <div>
-         <label> <b> Adress </b></label>
+         <label> <b> Adress: </b></label>
          <span>{{tableDetails.address}}</span>
        </div>
        <div>
-         <label> <b> Company </b></label>
+         <label> <b> Company: </b></label>
          <span>{{tableDetails.company}}</span>
        </div>
        <div>
-         <label> <b> Country </b></label>
+         <label> <b> Country: </b></label>
          <span>{{tableDetails.country}}</span>
        </div>
        <div>
-         <label> <b> Phone_Number </b></label>
+         <label> <b> Phone_Number: </b></label>
          <span>{{tableDetails.phoneNumber}}</span>
        </div>
 
        <div>
-         <label> <b> Selected Area </b></label>
+         <label> <b> Selected Area: </b></label>
          <span>{{tableDetails.area}}</span>
        </div>
 
 
 
        <div>
-         <label> <b> Roof_Type </b></label>
+         <label> <b> Roof_Type: </b></label>
          <span>{{tableDetails.roofType}}</span>
        </div>
 
        <div>
-         <label> <b> Roof_Inclination </b></label>
+         <label> <b> Roof_Inclination: </b></label>
          <span>{{tableDetails.roofInclination}}</span>
        </div>
 
        <div>
-        <label> <b> Attachment </b></label><br>
+        <label> <b> Attachment: </b></label>
         <!-- <span> <a target="_blank" href="{{tableDetails.attachment}}"> View Attachment </a> </span> -->
-        <span> <img src={{tableDetails.attachment}} 
-          width="150px" height="150px" alt="img"> </span>
+        <span>
+          <a target="_blank" href="{{tableDetails.attachment}}">View Attachement</a>
+        </span>
+        <!-- <span> <img src={{tableDetails.attachment}} 
+          width="150px" height="150px" alt="img"> </span> -->
       </div>
      </div>
    </div>
