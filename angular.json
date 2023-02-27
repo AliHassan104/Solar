@@ -27,7 +27,14 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/ExternalJavascripts/jquery.min.js",
+              "src/assets/ExternalJavascripts/bootstrap.bundle.min.js",
+              "src/assets/ExternalJavascripts/sb-admin-2.min.js",
+              "src/assets/ExternalJavascripts/chart-area-demo.js",
+              "src/assets/ExternalJavascripts/chart-pie-demo.js",
+              "src/assets/ExternalJavascripts/Chart.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -94,5 +101,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "4817d7a9-54fb-4e57-8a97-21136bf0f94c"
   }
 }

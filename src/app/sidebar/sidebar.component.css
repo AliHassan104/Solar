@@ -1,0 +1,9 @@
+@media (min-width:320px) and (max-width: 400px){
+    /* .m-8{
+        margin-left: 8px ;
+    } */
+
+    .sidebar {
+        width: 5.5rem !important;
+    }
+}

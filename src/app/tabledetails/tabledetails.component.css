@@ -1,0 +1,8 @@
+label {
+    margin-right: 5px;
+}
+
+.flexBox {
+    display: flex;
+    justify-content: center;
+}

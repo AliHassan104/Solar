@@ -1,0 +1,28 @@
+.sidebar {
+    width: 30%;
+}
+
+.main {
+    width: 100%;
+}
+
+.main_sections {
+    height: 86vh;
+    overflow-y: scroll;
+}
+
+.main_sections::-webkit-scrollbar {
+    width: 5px;
+
+}
+
+.main_sections::-webkit-scrollbar-track {
+    background: #CBD5E1;
+    border-radius: 5px;
+}
+
+.main_sections::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #64748B;
+    ;
+}
