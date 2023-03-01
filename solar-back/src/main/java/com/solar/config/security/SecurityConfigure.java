@@ -40,6 +40,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/api/solar-form").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/view/image/{filename:.+}").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/solar-form/image").permitAll()
+                .antMatchers(HttpMethod.GET,"/test").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/login").permitAll()
 
 //                .antMatchers(HttpMethod.POST,"/api/user").permitAll()
