@@ -32,7 +32,7 @@ export class TableService {
   }
 
   TotalLeads(){
-    return this.http.get(this.url+"/count")
+    return this.http.get(this.url+"count")
   }
   private search=new BehaviorSubject("");
   $search = this.search.asObservable();
