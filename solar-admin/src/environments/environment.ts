@@ -5,5 +5,6 @@
 export const environment = {
   production: false,
   // baseUrl: 'http://' + window.location.hostname + ':8081',
-  baseUrl: 'http://localhost:8082',
+  // baseUrl: 'http://localhost:8082',
+  baseUrl: 'https://vodasunakquise.ddevops.com/',
 };

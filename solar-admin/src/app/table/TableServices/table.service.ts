@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TableService {
-  url = "http://localhost:8081/api/solar-form/";
-  leadApi = "http://localhost:8081/api/solar-form/count";
+  // url = "http://localhost:8081/api/solar-form/";
+  // leadApi = "http://localhost:8081/api/solar-form/count";
+  url = environment.baseUrl+"api/solar-form/"
 
   constructor(private http: HttpClient) { }
 
@@ -30,7 +32,7 @@ export class TableService {
   }
 
   TotalLeads(){
-    return this.http.get(this.leadApi)
+    return this.http.get(this.url+"/count")
   }
   private search=new BehaviorSubject("");
   $search = this.search.asObservable();

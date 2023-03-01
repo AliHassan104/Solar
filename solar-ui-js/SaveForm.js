@@ -195,8 +195,7 @@ $(document).ready(function () {
 
     for (let valObj of validationArray) {
       if (valObj.firstName == "" || valObj.lastName == "" ||
-        (valObj.leaseRooftop == false && valObj.rentRooftop == false && valObj.buyRooftop == false) ||
-        valObj.email == "" || valObj.address == "" || valObj.country == "" || valObj.area == "") {
+        valObj.email == "" || valObj.address == "" || valObj.phoneNumber == "") {
         document.getElementById("submit_button").disabled = true;
       } else {
         document.getElementById("submit_button").disabled = false;
