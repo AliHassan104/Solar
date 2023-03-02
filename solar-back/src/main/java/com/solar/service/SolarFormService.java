@@ -205,7 +205,9 @@ public class SolarFormService {
 
     public String uploadImageAndGetApiPath(MultipartFile image){
         String filename = generateRandomImageName(image);
-        final Path filePAth = Paths.get(imageBucketPath);
+        String currentDirectory = System.getProperty("user.dir");
+        currentDirectory = currentDirectory.replace("\\", "/");
+        final Path filePAth = Paths.get(currentDirectory+imageBucketPath);
         Path imagePath = filePAth.resolve(filename);
         try {
             Files.copy(image.getInputStream(),imagePath);
@@ -225,7 +227,10 @@ public class SolarFormService {
 
     public ResponseEntity<InputStreamResource> getImage(String filename) {
         try {
-            final Path file = Paths.get(imageBucketPath).resolve(filename);
+            String currentDirectory = System.getProperty("user.dir");
+//            System.out.println("Current Directory: " + currentDirectory);
+            currentDirectory = currentDirectory.replace("\\", "/");
+            final Path file = Paths.get(currentDirectory+imageBucketPath).resolve(filename);
             Resource resource = new UrlResource(file.toUri());
             InputStream in = resource.getInputStream();
             if (resource.exists() || resource.isReadable()) {
