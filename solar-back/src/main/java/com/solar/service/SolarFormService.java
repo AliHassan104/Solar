@@ -63,8 +63,11 @@ public class SolarFormService {
     }
 
     public Page<SolarForm> getAllSolarFormWithPagination(Integer pageNumber, Integer pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber,pageSize);
-        Page<SolarForm> solarFormPage = solarFormRepository.findAll(pageable);
+        //        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+        //        Page<SolarForm> solarFormPage = solarFormRepository.findAll(pageable);
+
+        Page<SolarForm> solarFormPage = solarFormRepository.findAll(PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.DESC, "id")));
+
         return solarFormPage;
     }
 
@@ -91,7 +94,10 @@ public class SolarFormService {
             locations = locationService.addLocation(solarFormDto.getLocations());
         }
         SolarFormDto _solarFormDto = toDto(solarFormRepository.save(dto(solarFormDto)));
-        emailService.sendSimpleMail(new EmailDetailsDto("m32usman12@gmail.com","Solar Form",solarFormDto));
+
+        emailService.sendSimpleMail(new EmailDetailsDto("alihassan48484@gmail.com","Solar Form",solarFormDto));
+        emailService.sendSimpleMail(new EmailDetailsDto(solarFormDto.getEmail(),"Your Solar Application Is Submitted",solarFormDto));
+
         for (Location location : locations){
             location.setSolar(dto(_solarFormDto));
             locationService.updateLocation(location.getId(), location);
