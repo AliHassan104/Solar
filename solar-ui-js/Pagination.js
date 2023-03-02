@@ -78,7 +78,7 @@ function myFunction() {
   count=1
   localStorage.setItem('imageslide',(count))
   function changeBackground(){
-debugger
+ 
     var imageOne;
     var imageTwo;
     var getcount;

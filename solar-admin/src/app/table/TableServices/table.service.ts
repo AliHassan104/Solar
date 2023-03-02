@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment.prod';
 export class TableService {
   // url = "http://localhost:8081/api/solar-form/";
   // leadApi = "http://localhost:8081/api/solar-form/count";
-  url = environment.baseUrl+"api/solar-form/"
+  url = environment.baseUrl+"/api/solar-form/"
 
   constructor(private http: HttpClient) { }
 

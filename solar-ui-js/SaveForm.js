@@ -8,6 +8,10 @@ localStorage.removeItem("count")
 var getLocal = localStorage.getItem("count")
 var rooftypearray = []
 var roofinclinationarray = []
+
+// var baseUrl="http://localhost:8081/api/solar-form"
+var baseUrl="https://vodasunakquise.ddevops.com/api/solar-form"
+
 function getRoofType(roof_type) {
   rooftype = roof_type
 
@@ -41,7 +45,7 @@ function getRoofType(roof_type) {
     var count = 0;
     var applyBorder;
     rooftypearray.push(getFlachdach, getGrabendach, getParalleldach, getPultdach, getPulterweitert, getSatteldach)
-    debugger
+     
 
 
     for (let arr of rooftypearray) {
@@ -87,7 +91,7 @@ function getRoofType(roof_type) {
 }
 
 function getRoofInclination(Roof_inclination) {
-  debugger
+   
   Roofinclination = Roof_inclination;
 
   document.getElementById('0-grad').style.border = 'transparent'
@@ -123,7 +127,7 @@ var rentRooftop = false;
 var buyRooftop = false;
 interestedConcept()
 function interestedConcept() {
-  debugger;
+   ;
 
   const checkleaseRooftop = document.querySelector('#leaseRooftop');
   const checkrentRooftop = document.querySelector('#rentRooftop');
@@ -137,7 +141,7 @@ function interestedConcept() {
 
 
 function displayRadioValue() {
-  debugger;
+   ;
   var ele = document.getElementsByName('roofing');
 
   for (i = 0; i < ele.length; i++) {
@@ -150,7 +154,7 @@ document.getElementById("submit_button").disabled = true;
 
 $(document).ready(function () {
   $("input").change(function () {
-    debugger;
+     ;
     var ManualInput = document.getElementById("manualInput").value
     var getBuildingHeight = document.getElementById("building_height").value
     var getUserFirstName = document.getElementById("firstname").value
@@ -212,7 +216,7 @@ var attachment;
 
 $(document).ready(function () {
   $("#formFile").change(function () {
-    debugger
+     
     var fileInput = document.getElementById('formFile');
 
     selectedFile = new FormData();
@@ -223,10 +227,10 @@ $(document).ready(function () {
     var xhr = new XMLHttpRequest();              // create XMLHttpRequest
     xhr.onload = function () {
       attachment = this.responseText
-      console.log(this.responseText); // whatever the server returns
+       (this.responseText); // whatever the server returns
     }
 
-    xhr.open("post", "http://localhost:8081/api/solar-form/image");      // open connection
+    xhr.open("post", `${baseUrl+"/image"}`);      // open connection
     xhr.send(selectedFile);
 
   });
@@ -257,7 +261,7 @@ function submit() {
   }
 
 
-  debugger;
+   ;
 
   attachment
 
@@ -285,13 +289,13 @@ function submit() {
   }
 
   obj.locations = createLocationObjects();
-  // console.log("object", obj.locations);
+  //  ("object", obj.locations);
 
-  console.log("OBJECT", JSON.stringify(obj));
+   ("OBJECT", JSON.stringify(obj));
   (async () => {
     //http://localhost:8081/api/solar-form
     //http://localhost:3000/solarForm
-    const rawResponse = await fetch('http://localhost:8081/api/solar-form', {
+    const rawResponse = await fetch(`${baseUrl}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -301,7 +305,7 @@ function submit() {
     });
     const content = await rawResponse.json();
 
-    console.log(content);
+     (content);
   })();
 
   location.replace("thankyou.html");
@@ -335,12 +339,12 @@ function getUserLocation() {
 
     });
   } else {
-    console.log("User didn't allow")
+     ("User didn't allow")
   }
 }
 
 function initialize() {
-  console.log(lat + " " + lng);
+   (lat + " " + lng);
   var myLatlng = new google.maps.LatLng(lat, lng);
   var myOptions = {
     zoom: mapZoom,
@@ -404,7 +408,7 @@ function sumOfArea() {
   function add(accumulator, a) {
     return accumulator + a;
   }
-  console.log(sum);
+   (sum);
   document.getElementById('manualInput').value = parseInt(sum)
   // int(sum)
   document.getElementById("markedroof").innerHTML = parseInt(sum)
@@ -425,7 +429,7 @@ function GetArea(polygon) {
 }
 
 function latlontocart(latlon) {
-  // debugger
+  //  
   let latAnchor = latlon[0][0];
   let lonAnchor = latlon[0][1];
   let x = 0;
@@ -455,7 +459,7 @@ var objs
 
 function getLongLat() {
   let latlon = []
-  debugger;
+   ;
   const getlon_lan = document.getElementById('vertices').value;
   x = getlon_lan.replace(/[{()}]/g, '');
   var array = JSON.parse("[" + x + "]");
@@ -471,7 +475,7 @@ function getLongLat() {
 var locArr = [];
 
 function createLocationObjects() {
-  debugger
+   
   all_lonlat
   for (let shape = 0; shape < all_lonlat.length; shape++) {
     const eachShapeArr = all_lonlat[shape];
@@ -481,14 +485,14 @@ function createLocationObjects() {
       element: `shape ${shape + 1}`,
     }));
     locArr.push(...shapeObject);
-    console.log("locArr", locArr);
+     ("locArr", locArr);
   }
 
   return locArr
 }
 
 function cleanAllAfterSave() {
-  debugger;
+   ;
   clearMarkedArea();
 
   document.getElementById("autocomplete").value = ''
@@ -510,7 +514,7 @@ function cleanAllAfterSave() {
 }
 
 function clearRoofType() {
-  debugger
+   
   rooftype = null
   getRoofType()
 }
