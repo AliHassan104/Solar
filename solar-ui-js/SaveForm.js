@@ -230,7 +230,7 @@ $(document).ready(function () {
        (this.responseText); // whatever the server returns
     }
 
-    xhr.open("post", `${baseUrl+"/image"}`);      // open connection
+    xhr.open("post", `${baseUrl}`+"/image");      // open connection
     xhr.send(selectedFile);
 
   });
@@ -304,11 +304,10 @@ function submit() {
       body: JSON.stringify(obj)
     });
     const content = await rawResponse.json();
-
-     (content);
+    (content);
+    location.replace("thankyou.html");
   })();
 
-  location.replace("thankyou.html");
   cleanAllAfterSave();
 }
 

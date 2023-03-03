@@ -205,9 +205,9 @@ public class SolarFormService {
 
     public String uploadImageAndGetApiPath(MultipartFile image){
         String filename = generateRandomImageName(image);
-        String currentDirectory = System.getProperty("user.dir");
-        currentDirectory = currentDirectory.replace("\\", "/");
-        final Path filePAth = Paths.get(currentDirectory+imageBucketPath);
+//        String currentDirectory = System.getProperty("user.dir");
+//        currentDirectory = currentDirectory.replace("\\", "/");
+        final Path filePAth = Paths.get(imageBucketPath);
         Path imagePath = filePAth.resolve(filename);
         try {
             Files.copy(image.getInputStream(),imagePath);
