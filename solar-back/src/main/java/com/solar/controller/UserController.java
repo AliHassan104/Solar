@@ -20,12 +20,12 @@ public class UserController {
     private UserService userService;
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    @PostMapping("/user")
-//    public User addUser(@RequestBody User user){
-//        try{
-//            return userService.addUser(user);
-//        }catch (Exception e){
-//            return null;
-//        }
-//    }
+    @PostMapping("/user")
+    public User addUser(@RequestBody User user){
+        try{
+            return userService.addUser(user);
+        }catch (Exception e){
+            return null;
+        }
+    }
 }
